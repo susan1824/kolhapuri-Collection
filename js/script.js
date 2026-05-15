@@ -750,7 +750,7 @@ function modalAddToCart() {
 
 function modalCheckout() {
   if (!selectedSize) {
-    showToast('Please select a size first!');   
+    showToast('Please select a size first!');
     const lbl = document.getElementById('size-label-el');
     lbl.style.color = '#c62828';
     setTimeout(() => lbl.style.color = '', 1500);
