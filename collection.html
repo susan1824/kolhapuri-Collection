@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Collections – JUtti.com</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/collection.css">
+</head>
+<body>
+
+<!-- ════════════════════════════════════
+     SEARCH OVERLAY
+════════════════════════════════════ -->
+<div class="search-overlay" id="search-overlay">
+  <button class="search-close-btn" onclick="closeSearch()">✕</button>
+  <div class="search-box">
+    <div class="search-input-wrap">
+      <input type="text" id="search-input" placeholder="Search for juttis, styles, occasions…" autocomplete="off" onkeydown="if(event.key==='Enter') doSearch()">
+      <button class="search-submit" onclick="doSearch()">Search</button>
+    </div>
+    <div class="search-results-label" id="search-results-label">Try: embroidered, wedding, mojari, punjabi…</div>
+    <div class="search-tags" id="search-tags">
+      <span class="search-tag" onclick="fillSearch('Embroidered')">Embroidered</span>
+      <span class="search-tag" onclick="fillSearch('Wedding')">Wedding</span>
+      <span class="search-tag" onclick="fillSearch('Mojari')">Mojari</span>
+      <span class="search-tag" onclick="fillSearch('Punjabi')">Punjabi Style</span>
+      <span class="search-tag" onclick="fillSearch('Golden')">Golden</span>
+      <span class="search-tag" onclick="fillSearch('Casual')">Casual</span>
+    </div>
+    <div class="search-results-list" id="search-results-list"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     NAVBAR
+════════════════════════════════════ -->
+<header class="navbar" id="navbar">
+  <a class="logo-text" href="index.html">JUTTI<span>.</span></a>
+  <nav class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="index.html#best-selling">Best Selling</a>
+    <a href="collection.html" class="active">Collections</a>
+    <a href="index.html#about">About Us</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+  <div class="nav-right">
+    <button class="icon-btn search-icon-btn" onclick="openSearch()" title="Search">
+      <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"
+        stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
+        <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+    </button>
+    <button class="cart-btn" onclick="toggleCart()" title="Cart">
+      <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 0 1-8 0"/>
+      </svg>
+      <span class="cart-badge" id="cart-badge">0</span>
+    </button>
+    <div class="menu-toggle" id="menu-toggle">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════
+     PAGE HERO
+════════════════════════════════════ -->
+<div class="page-hero">
+  <p class="page-hero-eyebrow">Explore Our Range</p>
+  <h1>All Collections</h1>
+  <p>Handcrafted juttis for every occasion — from weddings to everyday wear, each pair tells a story.</p>
+</div>
+
+<!-- ════════════════════════════════════
+     FILTER + SORT BAR
+════════════════════════════════════ -->
+<div class="filter-bar">
+  <div class="filter-tabs">
+    <button class="ftab active" onclick="filterProducts('all', this)">All</button>
+    <button class="ftab" onclick="filterProducts('best-seller', this)">Best Sellers</button>
+    <button class="ftab" onclick="filterProducts('bridal', this)">Bridal</button>
+    <button class="ftab" onclick="filterProducts('potli', this)">Potli</button>
+    <button class="ftab" onclick="filterProducts('casual', this)">Casual</button>
+    <button class="ftab" onclick="filterProducts('traditional', this)">Traditional</button>
+    <span class="results-count" id="results-count">11 products</span>
+  </div>
+  <div class="sort-wrap">
+    <label for="sort-sel">Sort:</label>
+    <select id="sort-sel" onchange="sortProducts(this.value)">
+      <option value="default">Featured</option>
+      <option value="price-asc">Price: Low to High</option>
+      <option value="price-desc">Price: High to Low</option>
+      <option value="name">Name A–Z</option>
+    </select>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     PRODUCT GRID
+     Images defined here in HTML — JS reads data-images from each card template
+════════════════════════════════════ -->
+<section class="collection-section">
+  <div class="product-grid" id="product-grid">
+
+    <!-- ── Product 0 ── -->
+    <div class="p-card" data-id="0" data-cat="best-seller" onclick="openModal(0)">
+      <div class="card-img-wrap">
+        <img
+          src="image/s1.png"
+          data-images='["image/s1.png","image/s3.png","image/s4.png","image/s2.png"]'
+          alt="Red Flower pattern Jutti"
+          loading="lazy"
+          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22><rect fill=%22%23f7f2ec%22 width=%22400%22 height=%22400%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22serif%22 font-size=%2240%22 fill=%22%23c8a97e%22>👟</text></svg>'">
+        <span class="card-tag tag-best">Best Seller</span>
+        <div class="quick-view">Quick View</div>
+      </div>
+      <div class="card-body">
+        <p class="card-category">Best Seller</p>
+        <p class="card-name">Red Flower pattern Jutti</p>
+        <div class="card-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-count">(124)</span>
+        </div>
+        <div class="card-price-row">
+          <span class="card-price">Rs. 1,550</span>
+          <button class="card-add-btn" onclick="event.stopPropagation(); openModal(0)">View & Add →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Product 1 ── -->
+    <div class="p-card" data-id="1" data-cat="traditional" onclick="openModal(1)">
+      <div class="card-img-wrap">
+        <img
+          src="image/shoe4.jpeg"
+          data-images='["image/shoe1.jpeg","image/shoe3.jpeg","image/shoe2.jpeg","image/shoe4.jpeg"]'
+          alt="Royal Red Khussa"
+          loading="lazy"
+          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22><rect fill=%22%23f7f2ec%22 width=%22400%22 height=%22400%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22serif%22 font-size=%2240%22 fill=%22%23c8a97e%22>👟</text></svg>'">
+        <span class="card-tag tag-new">New</span>
+        <div class="quick-view">Quick View</div>
+      </div>
+      <div class="card-body">
+        <p class="card-category">Traditional</p>
+        <p class="card-name">Royal Red Khussa</p>
+        <div class="card-rating">
+          <span class="stars">★★★★½</span>
+          <span class="rating-count">(87)</span>
+        </div>
+        <div class="card-price-row">
+          <span class="card-price">Rs. 1,100</span>
+          <button class="card-add-btn" onclick="event.stopPropagation(); openModal(1)">View & Add →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Product 2 ── -->
+    <div class="p-card" data-id="2" data-cat="bridal" onclick="openModal(2)">
+      <div class="card-img-wrap">
+        <img
+          src="image/s3.jpeg"
+          data-images='["image/s1.jpeg","image/s3.jpeg","image/s4.jpeg","image/s2.jpeg"]'
+          alt="Bridal Kundan Jutti"
+          loading="lazy"
+          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22><rect fill=%22%23f7f2ec%22 width=%22400%22 height=%22400%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22serif%22 font-size=%2240%22 fill=%22%23c8a97e%22>👟</text></svg>'">
+        <span class="card-tag tag-bridal">Bridal</span>
+        <div class="quick-view">Quick View</div>
+      </div>
+      <div class="card-body">
+        <p class="card-category">Bridal</p>
+        <p class="card-name">Bridal Kundan Jutti</p>
+        <div class="card-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-count">(203)</span>
+        </div>
+        <div class="card-price-row">
+          <span class="card-price">Rs. 1,800</span>
+          <button class="card-add-btn" onclick="event.stopPropagation(); openModal(2)">View & Add →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Product 3 ── -->
+    <div class="p-card" data-id="3" data-cat="mojari" onclick="openModal(3)">
+      <div class="card-img-wrap">
+        <img
+          src="image/b2.png"
+          data-images='["image/b1.png","image/b3.png","image/b4.png","image/b2.png"]'
+          alt="Classic Black Jutti"
+          loading="lazy"
+          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22><rect fill=%22%23f7f2ec%22 width=%22400%22 height=%22400%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22serif%22 font-size=%2240%22 fill=%22%23c8a97e%22>👢</text></svg>'">
+        <span class="card-tag tag-best">Best Seller</span>
+        <div class="quick-view">Quick View</div>
+      </div>
+      <div class="card-body">
+        <p class="card-category">Mojari</p>
+        <p class="card-name">Classic Black Jutti</p>
+        <div class="card-rating">
+          <span class="stars">★★★★½</span>
+          <span class="rating-count">(156)</span>
+        </div>
+        <div class="card-price-row">
+          <span class="card-price">Rs. 1,550</span>
+          <button class="card-add-btn" onclick="event.stopPropagation(); openModal(3)">View & Add →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Product 4 ── -->
+    <div class="p-card" data-id="4" data-cat="casual" onclick="openModal(4)">
+      <div class="card-img-wrap">
+        <img
+          src="image/s3.png"
+          data-images='["image/s1.png","image/s3.png","image/s4.png","image/s2.png"]'
+          alt="Classic Tan Leather Jutti"
+          loading="lazy"
+          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22><rect fill=%22%23f7f2ec%22 width=%22400%22 height=%22400%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22serif%22 font-size=%2240%22 fill=%22%23c8a97e%22>👟</text></svg>'">
+        <span class="card-tag tag-new">New</span>
+        <div class="quick-view">Quick View</div>
+      </div>
+      <div class="card-body">
+        <p class="card-category">Casual</p>
+        <p class="card-name">Classic Tan Leather Jutti</p>
+        <div class="card-rating">
+          <span class="stars">★★★★½</span>
+          <span class="rating-count">(72)</span>
+        </div>
+        <div class="card-price-row">
+          <span class="card-price">Rs. 1,899</span>
+          <button class="card-add-btn" onclick="event.stopPropagation(); openModal(4)">View & Add →</button>
+        </div>
+      </div>
+    </div>
+
+     <!-- ── Product 0 ── -->
+    <div class="p-card" data-id="0" data-cat="best-seller" onclick="openModal(0)">
+      <div class="card-img-wrap">
+        <img
+          src="image/s1.png"
+          data-images='["image/s1.png","image/s3.png","image/s4.png","image/s2.png"]'
+          alt="Red Flower pattern Jutti"
+          loading="lazy"
+          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22><rect fill=%22%23f7f2ec%22 width=%22400%22 height=%22400%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22serif%22 font-size=%2240%22 fill=%22%23c8a97e%22>👟</text></svg>'">
+        <span class="card-tag tag-best">Best Seller</span>
+        <div class="quick-view">Quick View</div>
+      </div>
+      <div class="card-body">
+        <p class="card-category">Best Seller</p>
+        <p class="card-name">Red Flower pattern Jutti</p>
+        <div class="card-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-count">(124)</span>
+        </div>
+        <div class="card-price-row">
+          <span class="card-price">Rs. 1,550</span>
+          <button class="card-add-btn" onclick="event.stopPropagation(); openModal(0)">View & Add →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Product 1 ── -->
+    <div class="p-card" data-id="1" data-cat="traditional" onclick="openModal(1)">
+      <div class="card-img-wrap">
+        <img
+          src="image/shoe4.jpeg"
+          data-images='["image/shoe1.jpeg","image/shoe3.jpeg","image/shoe2.jpeg","image/shoe4.jpeg"]'
+          alt="Royal Red Khussa"
+          loading="lazy"
+          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22><rect fill=%22%23f7f2ec%22 width=%22400%22 height=%22400%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22serif%22 font-size=%2240%22 fill=%22%23c8a97e%22>👟</text></svg>'">
+        <span class="card-tag tag-new">New</span>
+        <div class="quick-view">Quick View</div>
+      </div>
+      <div class="card-body">
+        <p class="card-category">Traditional</p>
+        <p class="card-name">Royal Red Khussa</p>
+        <div class="card-rating">
+          <span class="stars">★★★★½</span>
+          <span class="rating-count">(87)</span>
+        </div>
+        <div class="card-price-row">
+          <span class="card-price">Rs. 1,100</span>
+          <button class="card-add-btn" onclick="event.stopPropagation(); openModal(1)">View & Add →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Product 2 ── -->
+    <div class="p-card" data-id="2" data-cat="bridal" onclick="openModal(2)">
+      <div class="card-img-wrap">
+        <img
+          src="image/s3.jpeg"
+          data-images='["image/s1.jpeg","image/s3.jpeg","image/s4.jpeg","image/s2.jpeg"]'
+          alt="Bridal Kundan Jutti"
+          loading="lazy"
+          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22><rect fill=%22%23f7f2ec%22 width=%22400%22 height=%22400%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22serif%22 font-size=%2240%22 fill=%22%23c8a97e%22>👟</text></svg>'">
+        <span class="card-tag tag-bridal">Bridal</span>
+        <div class="quick-view">Quick View</div>
+      </div>
+      <div class="card-body">
+        <p class="card-category">Bridal</p>
+        <p class="card-name">Bridal Kundan Jutti</p>
+        <div class="card-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-count">(203)</span>
+        </div>
+        <div class="card-price-row">
+          <span class="card-price">Rs. 3,499</span>
+          <button class="card-add-btn" onclick="event.stopPropagation(); openModal(2)">View & Add →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Product 3 ── -->
+    <div class="p-card" data-id="3" data-cat="mojari" onclick="openModal(3)">
+      <div class="card-img-wrap">
+        <img
+          src="image/b2.png"
+          data-images='["image/b1.png","image/b3.png","image/b4.png","image/b2.png"]'
+          alt="Classic Black Jutti"
+          loading="lazy"
+          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22><rect fill=%22%23f7f2ec%22 width=%22400%22 height=%22400%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22serif%22 font-size=%2240%22 fill=%22%23c8a97e%22>👢</text></svg>'">
+        <span class="card-tag tag-best">Best Seller</span>
+        <div class="quick-view">Quick View</div>
+      </div>
+      <div class="card-body">
+        <p class="card-category">Mojari</p>
+        <p class="card-name">Classic Black Jutti</p>
+        <div class="card-rating">
+          <span class="stars">★★★★½</span>
+          <span class="rating-count">(156)</span>
+        </div>
+        <div class="card-price-row">
+          <span class="card-price">Rs. 1,550</span>
+          <button class="card-add-btn" onclick="event.stopPropagation(); openModal(3)">View & Add →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Product 4 ── -->
+    <div class="p-card" data-id="4" data-cat="casual" onclick="openModal(4)">
+      <div class="card-img-wrap">
+        <img
+          src="image/s3.png"
+          data-images='["image/s1.png","image/s3.png","image/s4.png","image/s2.png"]'
+          alt="Classic Tan Leather Jutti"
+          loading="lazy"
+          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22><rect fill=%22%23f7f2ec%22 width=%22400%22 height=%22400%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22serif%22 font-size=%2240%22 fill=%22%23c8a97e%22>👟</text></svg>'">
+        <span class="card-tag tag-new">New</span>
+        <div class="quick-view">Quick View</div>
+      </div>
+      <div class="card-body">
+        <p class="card-category">Casual</p>
+        <p class="card-name">Classic Tan Leather Jutti</p>
+        <div class="card-rating">
+          <span class="stars">★★★★½</span>
+          <span class="rating-count">(72)</span>
+        </div>
+        <div class="card-price-row">
+          <span class="card-price">Rs. 1,899</span>
+          <button class="card-add-btn" onclick="event.stopPropagation(); openModal(4)">View & Add →</button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ── Product 8 · Potli ── -->
+    <div class="p-card" data-id="8" data-cat="potli" onclick="openModal(8)">
+      <div class="card-img-wrap">
+        <img
+          src="image/rbg.jpg"
+          data-images='["image/rbg.jpg","image/rbg.jpg"]'
+          alt="Embroidered Bridal Potli"
+          loading="lazy"
+          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22><rect fill=%22%23f7f2ec%22 width=%22400%22 height=%22400%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22serif%22 font-size=%2240%22 fill=%22%23c8a97e%22>👜</text></svg>'">
+        <span class="card-tag tag-new">New</span>
+        <div class="quick-view">Quick View</div>
+      </div>
+      <div class="card-body">
+        <p class="card-category">Potli</p>
+        <p class="card-name">Embroidered Bridal Potli</p>
+        <div class="card-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-count">(94)</span>
+        </div>
+        <div class="card-price-row">
+          <span class="card-price">Rs. 1,799</span>
+          <button class="card-add-btn" onclick="event.stopPropagation(); openModal(8)">View & Add →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Product 9 · Potli ── -->
+    <div class="p-card" data-id="9" data-cat="potli" onclick="openModal(9)">
+      <div class="card-img-wrap">
+        <img
+          src="image/wbg1.jpg"
+          data-images='["image/wbg1.jpg","image/wbg2.jpg"]'
+          alt="Zari Gold Potli Clutch"
+          loading="lazy"
+          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22><rect fill=%22%23f7f2ec%22 width=%22400%22 height=%22400%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22serif%22 font-size=%2240%22 fill=%22%23c8a97e%22>👜</text></svg>'">
+        <span class="card-tag tag-best">Best Seller</span>
+        <div class="quick-view">Quick View</div>
+      </div>
+      <div class="card-body">
+        <p class="card-category">Potli</p>
+        <p class="card-name">Zari Gold Potli Clutch</p>
+        <div class="card-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-count">(138)</span>
+        </div>
+        <div class="card-price-row">
+          <span class="card-price">Rs. 2,299</span>
+          <button class="card-add-btn" onclick="event.stopPropagation(); openModal(9)">View & Add →</button>
+        </div>
+      </div>
+    </div>
+    <div class="p-card" data-id="9" data-cat="potli" onclick="openModal(9)">
+      <div class="card-img-wrap">
+        <img
+          src="image/rbg1.jpg"
+          data-images='["image/rbg1.jpg","image/rbg2.jpg"]'
+          alt="Red Potli Clutch"
+          loading="lazy"
+          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22><rect fill=%22%23f7f2ec%22 width=%22400%22 height=%22400%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22serif%22 font-size=%2240%22 fill=%22%23c8a97e%22>👜</text></svg>'">
+        <span class="card-tag tag-best">Best Seller</span>
+        <div class="quick-view">Quick View</div>
+      </div>
+      <div class="card-body">
+        <p class="card-category">Potli</p>
+        <p class="card-name"> Red Potli Clutch</p>
+        <div class="card-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-count">(138)</span>
+        </div>
+        <div class="card-price-row">
+          <span class="card-price">Rs. 2,299</span>
+          <button class="card-add-btn" onclick="event.stopPropagation(); openModal(9)">View & Add →</button>
+        </div>
+      </div>
+    </div>
+
+    
+
+    <!-- ── Product 5 ── -->
+    <div class="p-card" data-id="5" data-cat="traditional" onclick="openModal(5)">
+      <div class="card-img-wrap">
+        <img
+          src="image/p5-front.jpg"
+          data-images='["image/p5-front.jpg","image/p5-side.jpg","image/p5-back.jpg","image/p5-detail.jpg"]'
+          alt="Mirror Work Khussa"
+          loading="lazy"
+          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22><rect fill=%22%23f7f2ec%22 width=%22400%22 height=%22400%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22serif%22 font-size=%2240%22 fill=%22%23c8a97e%22>👟</text></svg>'">
+        <span class="card-tag tag-best">Best Seller</span>
+        <div class="quick-view">Quick View</div>
+      </div>
+      <div class="card-body">
+        <p class="card-category">Traditional</p>
+        <p class="card-name">Mirror Work Khussa</p>
+        <div class="card-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-count">(99)</span>
+        </div>
+        <div class="card-price-row">
+          <span class="card-price">Rs. 2,599</span>
+          <button class="card-add-btn" onclick="event.stopPropagation(); openModal(5)">View & Add →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Product 6 ── -->
+    <div class="p-card" data-id="6" data-cat="bridal" onclick="openModal(6)">
+      <div class="card-img-wrap">
+        <img
+          src="image/p6-front.jpg"
+          data-images='["image/p6-front.jpg","image/p6-side.jpg","image/p6-back.jpg","image/p6-detail.jpg"]'
+          alt="Velvet Zari Jutti"
+          loading="lazy"
+          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22><rect fill=%22%23f7f2ec%22 width=%22400%22 height=%22400%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22serif%22 font-size=%2240%22 fill=%22%23c8a97e%22>👟</text></svg>'">
+        <span class="card-tag tag-bridal">Bridal</span>
+        <div class="quick-view">Quick View</div>
+      </div>
+      <div class="card-body">
+        <p class="card-category">Bridal</p>
+        <p class="card-name">Velvet Zari Jutti</p>
+        <div class="card-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-count">(145)</span>
+        </div>
+        <div class="card-price-row">
+          <span class="card-price">Rs. 2,999</span>
+          <button class="card-add-btn" onclick="event.stopPropagation(); openModal(6)">View & Add →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Product 7 ── -->
+    <div class="p-card" data-id="7" data-cat="mojari" onclick="openModal(7)">
+      <div class="card-img-wrap">
+        <img
+          src="image/p7-front.jpg"
+          data-images='["image/p7-front.jpg","image/p7-side.jpg","image/p7-back.jpg","image/p7-detail.jpg"]'
+          alt="Heritage Mojari Pair"
+          loading="lazy"
+          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22><rect fill=%22%23f7f2ec%22 width=%22400%22 height=%22400%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22serif%22 font-size=%2240%22 fill=%22%23c8a97e%22>👟</text></svg>'">
+        <span class="card-tag tag-best">Best Seller</span>
+        <div class="quick-view">Quick View</div>
+      </div>
+      <div class="card-body">
+        <p class="card-category">Mojari</p>
+        <p class="card-name">Heritage Mojari Pair</p>
+        <div class="card-rating">
+          <span class="stars">★★★★½</span>
+          <span class="rating-count">(118)</span>
+        </div>
+        <div class="card-price-row">
+          <span class="card-price">Rs. 3,199</span>
+          <button class="card-add-btn" onclick="event.stopPropagation(); openModal(7)">View & Add →</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /product-grid -->
+</section>
+
+
+
+<!-- ════════════════════════════════════
+     PRODUCT DETAIL MODAL
+════════════════════════════════════ -->
+<div class="modal-backdrop" id="modal-backdrop" onclick="handleBackdropClick(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+
+    <!-- Top: gallery + info -->
+    <div class="modal-top">
+
+      <!-- Gallery -->
+      <div class="modal-gallery">
+        <div class="gallery-thumbs" id="gallery-thumbs"></div>
+        <div class="gallery-main">
+          <img id="gallery-main-img" src="" alt="Product">
+          <button class="gallery-arrow prev">‹</button>
+          <button class="gallery-arrow next">›</button>
+          <div class="gallery-dots" id="gallery-dots"></div>
+        </div>
+      </div>
+
+      <!-- Info -->
+      <div class="modal-info" id="modal-info">
+        <p class="modal-category-tag" id="m-cat"></p>
+        <h2 class="modal-name" id="m-name"></h2>
+        <div class="modal-rating">
+          <span class="stars" id="m-stars"></span>
+          <span class="rating-count" id="m-rating"></span>
+          <span class="sold" id="m-sold"></span>
+        </div>
+        <div class="price-row">
+          <span class="modal-price" id="m-price"></span>
+          <span class="modal-price-old" id="m-price-old"></span>
+          <span class="modal-discount" id="m-discount"></span>
+        </div>
+        <p class="modal-desc" id="m-desc"></p>
+
+        <p class="section-label" id="size-label-el">Select Size (EU)</p>
+        <div class="sizes-grid" id="m-sizes"></div>
+
+        <div class="modal-actions">
+          <button class="btn-add-cart" id="m-add-btn" onclick="modalAddToCart()" disabled>
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+            Add to Cart
+          </button>
+          <button class="btn-checkout" onclick="modalCheckout()">
+            Buy Now
+          </button>
+        </div>
+
+        <div class="modal-perks">
+          <div class="perk">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Free delivery on all orders
+          </div>
+          <div class="perk">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            100% genuine handcrafted leather
+          </div>
+          <div class="perk">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            Easy 7-day returns
+          </div>
+          <div class="perk">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            COD · JazzCash · EasyPaisa
+          </div>
+        </div>
+      </div>
+    </div><!-- /modal-top -->
+
+    <!-- Recommendations -->
+    <div class="modal-recs">
+      <p class="recs-title">You May Also Like</p>
+      <div class="recs-strip" id="recs-strip"></div>
+    </div>
+  </div><!-- /modal -->
+</div>
+
+<!-- ════════════════════════════════════
+     CART DRAWER
+════════════════════════════════════ -->
+<div class="cart-backdrop-el" id="cart-backdrop-el" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cart-drawer">
+  <div class="cart-drawer-header">
+    <h3>Your Cart</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items-el" id="cart-items-el"></div>
+  <div id="cart-footer-el"></div>
+</div>
+
+<div id="toast"></div>
+<!-- ════════════════════════════════════
+     PAGINATION  (above footer)
+════════════════════════════════════ -->
+<div class="pagination-wrap" id="pagination-wrap">
+  <button class="pg-arrow" id="pg-prev" onclick="changePage(-1)" title="Previous page">&#8249;</button>
+  <div class="pg-numbers" id="pg-numbers"></div>
+  <button class="pg-arrow" id="pg-next" onclick="changePage(1)" title="Next page">&#8250;</button>
+</div>
+<!-- ════════════════════════════════════
+     FOOTER
+════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+
+      <div class="footer-brand">
+        <a class="footer-logo" href="index.html">JUTTI<span>.</span></a>
+        <p>Handcrafted juttis rooted in tradition, made for every occasion. Bringing the artisan craftsmanship of Lahore to your doorstep since 2009.</p>
+        <div class="social-row">
+          <a class="social-btn fb" href="#" title="Facebook">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a class="social-btn insta" href="#" title="Instagram">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </a>
+          <a class="social-btn wa" href="#" title="WhatsApp">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#best-selling">Best Selling</a></li>
+          <li><a href="collection.html">All Collections</a></li>
+          <li><a href="index.html#about">About Us</a></li>
+          <li><a href="index.html#contact">Contact Us</a></li>
+          <li><a href="#">Size Guide</a></li>
+          <li><a href="#">Track Order</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Store Hours</h4>
+        <ul class="footer-hours">
+          <li><span class="day">Monday</span><span>10am – 8pm</span></li>
+          <li><span class="day">Tuesday</span><span>10am – 8pm</span></li>
+          <li><span class="day">Wednesday</span><span>10am – 8pm</span></li>
+          <li><span class="day">Thursday</span><span>10am – 8pm</span></li>
+          <li><span class="day">Friday</span><span>2pm – 9pm</span></li>
+          <li><span class="day">Saturday</span><span>10am – 9pm</span></li>
+          <li><span class="day">Sunday</span><span class="closed">Closed</span></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Newsletter</h4>
+        <p class="footer-newsletter-desc">Get exclusive deals, new arrivals and style tips delivered to your inbox.</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="Your email address" id="newsletter-email">
+          <button onclick="subscribeNewsletter()">→</button>
+        </div>
+        <p class="footer-no-spam">No spam, unsubscribe any time.</p>
+        <h4 style="margin-top:24px;">Help &amp; Policies</h4>
+        <ul class="footer-links">
+          <li><a href="#">Shipping Policy</a></li>
+          <li><a href="#">Return &amp; Exchange</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms &amp; Conditions</a></li>
+          <li><a href="#">FAQs</a></li>
+        </ul>
+      </div>
+
+    </div><!-- /footer-grid -->
+
+    <div class="footer-bottom">
+      <span>© 2025 JUtti.com · All rights reserved · Made with ♥ in Lahore</span>
+      <div class="footer-payments">
+        <span class="pay-label">We accept:</span>
+        <span class="pay-badge">JazzCash</span>
+        <span class="pay-badge">EasyPaisa</span>
+        <span class="pay-badge">COD</span>
+        <span class="pay-badge">Bank Transfer</span>
+      </div>
+    </div>
+
+  </div><!-- /footer-inner -->
+</footer>
+
+<!-- ════════════════════════════════════
+     SCRIPT
+════════════════════════════════════ -->
+<script src="js/collection.js"></script>
+</body>
+</html>

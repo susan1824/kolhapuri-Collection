@@ -1,0 +1,214 @@
+/* ═══════════════════════════════════════════════════════
+   JUtti.com — HERO + TRUST BAR mobile fix
+   Add this <link> AFTER your existing style.css
+   OR paste at the very bottom of style.css
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Remove Playfair Display from best-selling section
+      (it inherits from .collections incorrectly) ── */
+.best-selling { font-family: Playfair Display, serif; }
+
+@media (max-width: 768px) {
+
+  /* ══════════════════════════════════
+     HERO SECTION
+  ══════════════════════════════════ */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;            /* full screen height on mobile */
+    padding: 0;
+    gap: 0;
+    background: linear-gradient(170deg, #fdf8f2 0%, #f5e9d4 55%, #ebd9b8 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Decorative soft circle behind everything */
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 340px;
+    height: 340px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #f3e2c4 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── TEXT BLOCK ── */
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 52px 28px 20px;
+    text-align: left;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 4px;
+    color: #b3864a;
+    margin-bottom: 12px;
+  }
+
+  .hero-title {
+    font-size: clamp(2.4rem, 11vw, 3.4rem);
+    line-height: 1.05;
+    margin-bottom: 2px;
+    color: #2b1d14;
+  }
+
+  .hero-title-accent {
+    font-size: clamp(2.2rem, 10vw, 3.2rem);
+    line-height: 1.1;
+    margin-bottom: 18px;
+    display: block;
+  }
+
+  .hero-desc {
+    font-size: 0.88rem;
+    line-height: 1.75;
+    max-width: 100%;
+    color: #7a6a58;
+    margin-bottom: 28px;
+  }
+
+  .cta-btn {
+    padding: 16px 30px;
+    font-size: 0.73rem;
+    letter-spacing: 2.5px;
+    display: inline-flex;   /* NOT full-width — keeps it elegant */
+    width: auto;
+  }
+
+  /* ── SHOE IMAGE BLOCK ── */
+  .hero-visual {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex: 1;
+    min-height: 0;
+    padding-bottom: 110px;   /* space for trust bar */
+    overflow: visible;
+  }
+
+  .circle-bg {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #f3e7d7, #e0ccb0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(120, 70, 20, 0.15);
+  }
+
+  .hero-shoe-img {
+    width: 115%;
+    height: 115%;
+    object-fit: cover;
+    object-position: center 20%;
+    transform: translateX(-30px);
+    filter: drop-shadow(0 12px 18px rgba(0,0,0,0.18));
+  }
+
+  /* ══════════════════════════════════
+     TRUST BAR — compact 2×2 strip
+  ══════════════════════════════════ */
+  .trust-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    transform: none;
+    border-radius: 0;
+    border: none;
+    border-top: 1px solid rgba(200, 169, 126, 0.3);
+    background: rgba(253, 248, 242, 0.96);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0;
+    z-index: 10;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    position: relative;
+  }
+
+  /* Divider lines between cells */
+  .trust-item:nth-child(1),
+  .trust-item:nth-child(2) {
+    border-bottom: 1px solid rgba(200, 169, 126, 0.25);
+  }
+  .trust-item:nth-child(1)::after,
+  .trust-item:nth-child(3)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 15%;
+    height: 70%;
+    width: 1px;
+    background: rgba(200, 169, 126, 0.25);
+  }
+  .trust-item:nth-child(2)::after,
+  .trust-item:nth-child(4)::after {
+    display: none;
+  }
+
+  /* Icons — scaled down */
+  .trust-icon {
+    display: flex;
+    flex-shrink: 0;
+    color: #a8793c;
+  }
+
+  .trust-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .trust-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: #2b1d14;
+    line-height: 1.4;
+  }
+
+  .trust-label span {
+    display: block;
+    font-size: 0.63rem;
+    font-weight: 400;
+    color: #7a6a58;
+  }
+}
+
+/* ── Very small screens ── */
+@media (max-width: 360px) {
+  .hero-content { padding: 40px 20px 16px; }
+
+  .circle-bg {
+    width: 250px;
+    height: 250px;
+  }
+
+  .trust-label { font-size: 0.65rem; }
+  .trust-label span { font-size: 0.58rem; }
+}

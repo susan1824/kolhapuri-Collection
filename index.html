@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JuttiDot com – Handcrafted Traditional Footwear</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     SEARCH OVERLAY
+══════════════════════════════════════ -->
+<div class="search-overlay" id="search-overlay">
+  <button class="search-close-btn" onclick="closeSearch()">✕</button>
+  <div class="search-box">
+    <div class="search-input-wrap">
+      <input type="text" id="search-input" placeholder="Search for juttis, styles, occasions…" autocomplete="off">
+      <button class="search-submit" onclick="doSearch()">Search</button>
+    </div>
+    <div class="search-results" id="search-results-label">Try: embroidered, wedding, mojari, punjabi…</div>
+    <div class="search-tags" id="search-tags">
+      <span class="search-tag" onclick="fillSearch('Embroidered Jutti')">Embroidered</span>
+      <span class="search-tag" onclick="fillSearch('Wedding Jutti')">Wedding</span>
+      <span class="search-tag" onclick="fillSearch('Mojari')">Mojari</span>
+      <span class="search-tag" onclick="fillSearch('Punjabi Jutti')">Punjabi Style</span>
+      <span class="search-tag" onclick="fillSearch('Golden Jutti')">Golden</span>
+      <span class="search-tag" onclick="fillSearch('Casual Jutti')">Casual</span>
+    </div>
+    <div class="search-results-list" id="search-results-list"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════ -->
+<header class="navbar" id="navbar">
+  <div class="nav-left">
+    <a class="logo-text" href="#hero">JUTTI<span>.com</span></a>
+  </div>
+
+  <nav class="nav-center" id="nav-menu">
+    <a href="#hero" class="nav-link active">Home</a>
+    <a href="#best-selling" class="nav-link">Best Selling</a>
+    <a href="collection.html" class="nav-link">Collections</a>
+    <a href="#about" class="nav-link">About Us</a>
+    <a href="#contact" class="nav-link">Contact</a>
+  </nav>
+
+  <div class="nav-right">
+    <button class="icon-btn" onclick="openSearch()" title="Search">
+      <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"
+        stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
+        <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+    </button>
+    <div class="cart" id="cart-trigger" onclick="toggleCart()">
+      <div class="cart-icon-wrap">
+        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"
+          stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span class="badge" id="cart-badge">0</span>
+      </div>
+      
+    </div>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════
+     HERO
+══════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <p class="eyebrow">Step Into Tradition</p>
+    <h1 class="hero-title">Timeless Style.</h1>
+    <span class="hero-title-accent">Every Step.</span>
+    <p class="hero-desc">
+      Discover beautifully handcrafted juttis that blend tradition,
+      comfort and elegance for every occasion.
+    </p>
+    <a href="collection.html" class="cta-btn">
+      Shop Now
+      <svg class="cta-arrow" viewBox="0 0 18 18">
+        <line x1="2" y1="9" x2="16" y2="9"/>
+        <polyline points="10,3 16,9 10,15"/>
+      </svg>
+    </a>
+  </div>
+
+  <div class="hero-visual">
+    <div class="circle-bg">
+      <img src="image/shoe.png" alt="Handcrafted embroidered Jutti" class="hero-shoe-img"
+        onerror="this.style.display='none'"/>
+    </div>
+  </div>
+
+  <div class="trust-bar">
+    <div class="trust-item">
+      <span class="trust-icon">
+        <svg width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 32 32" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="16" cy="16" r="13"/><path d="M16 8l2 5h5l-4 3 1.5 5L16 18l-4.5 3 1.5-5-4-3h5z"/>
+        </svg>
+      </span>
+      <div class="trust-label">Premium Quality<span>Finest materials</span></div>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon">
+        <svg width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 32 32" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 28c0-7 4-12 10-14"/>
+          <path d="M14 14c2-6 8-10 12-10-2 6-6 10-12 14"/>
+          <path d="M14 14c-2-4-6-7-10-7 1 5 4 9 10 14"/>
+        </svg>
+      </span>
+      <div class="trust-label">Handcrafted with Care<span>Artisan made</span></div>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon">
+        <svg width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 32 32" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 6c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10S21.5 6 16 6z"/>
+          <path d="M16 10v6l4 2"/>
+        </svg>
+      </span>
+      <div class="trust-label">All Day Comfort<span>Ergonomic fit</span></div>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon">
+        <svg width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 32 32" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="12" width="22" height="12" rx="2"/>
+          <path d="M24 18h4l2 3v3h-6"/>
+          <circle cx="8" cy="26" r="2.5"/><circle cx="22" cy="26" r="2.5"/>
+        </svg>
+      </span>
+      <div class="trust-label">Fast Delivery<span>Hassle-free returns</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     BEST SELLING
+══════════════════════════════════════ -->
+<section class="best-selling section-pad" id="best-selling">
+  <div class="container">
+    <div class="best-header">
+      <h2 class="section-title"><span>Best Selling</span></h2>
+      <a href="collection.html" class="view-all">View All →</a>
+    </div>
+
+    <div class="collection-grid">
+
+      <!-- Card 0 -->
+      <div class="card-wrap" id="card-0" onclick="openModal(0)" style="cursor:pointer;">
+        <img src="image/s3.jpeg" alt="Red Flower pattern Jutti"
+          data-images='["image/s1.jpeg","image/s3.jpeg","image/s4.jpeg","image/s2.jpeg"]'
+          onerror="this.src='image/display.jpg'">
+        <div class="card-body">
+          <p class="card-name">Red Flower pattern Jutti</p>
+          <p class="card-price">Rs. 1,550</p>
+          <button class="add-btn" onclick="event.stopPropagation(); openModal(0)">View & Add →</button>
+        </div>
+      </div>
+
+      <!-- Card 1 -->
+      <div class="card-wrap" id="card-1" onclick="openModal(1)" style="cursor:pointer;">
+        <img src="image/shoe4.jpeg" alt="Royal Red Khussa"
+          data-images='["image/shoe1.jpeg","image/shoe2.jpeg","image/shoe3.jpeg","image/shoe4.jpeg"]'
+          onerror="this.src='image/display.jpg'">
+        <div class="card-body">
+          <p class="card-name">Royal Red Khussa</p>
+          <p class="card-price">Rs. 1,100</p>
+          <button class="add-btn" onclick="event.stopPropagation(); openModal(1)">View & Add →</button>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card-wrap" id="card-2" onclick="openModal(2)" style="cursor:pointer;">
+        <img src="image/s1.png" alt="Bridal Kundan Jutti"
+          data-images='["image/s1.png","image/s3.png","image/s4.png","image/s2.png"]'
+          onerror="this.src='image/display.jpg'">
+        <div class="card-body">
+          <p class="card-name">Bridal Kundan Jutti</p>
+          <p class="card-price">Rs. 1,800</p>
+          <button class="add-btn" onclick="event.stopPropagation(); openModal(2)">View & Add →</button>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card-wrap" id="card-3" onclick="openModal(3)" style="cursor:pointer;">
+        <img src="image/b2.png" alt="Classic Black Jutti"
+          data-images='["image/b1.png","image/b3.png","image/b4.png","image/b2.png"]'
+          onerror="this.src='image/display.jpg'">
+        <div class="card-body">
+          <p class="card-name">Classic Black Jutti</p>
+          <p class="card-price">Rs. 1,550</p>
+          <button class="add-btn" onclick="event.stopPropagation(); openModal(3)">View & Add →</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     PROMO BANNER
+══════════════════════════════════════ -->
+<div class="promo-banner">
+  <div class="promo-inner">
+    <p class="promo-label">Limited Time Offer</p>
+    <h2 class="promo-title">Celebrate Every Occasion<br>in Handcrafted Elegance</h2>
+    <p class="promo-sub">Use code below for 15% off your first order</p>
+    <div class="promo-code">JUTTI15</div><br>
+    <a href="collection.html" class="promo-btn">Shop Collections</a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     COLLECTIONS
+══════════════════════════════════════ -->
+<section class="collections section-pad" id="collections">
+  <div class="container">
+    <div class="collections-header">
+      <h2 class="section-title"><span>Our Collections</span></h2>
+      <a href="collection.html" class="view-all">View All →</a>
+    </div>
+
+    <div class="collection-grid">
+
+      <!-- Card 4 -->
+      <div class="card-wrap" id="card-4" onclick="openModal(4)" style="cursor:pointer;">
+        <img src="image/b2.png" alt="Classic Black Jutti"
+          data-images='["image/b2.png","image/b4.png","image/b1.png","image/b3.png"]'
+          onerror="this.src='image/display.jpg'">
+        <div class="card-body">
+          <p class="card-name">Classic Black Jutti</p>
+          <p class="card-price">Rs. 1,550</p>
+          <button class="add-btn" onclick="event.stopPropagation(); openModal(4)">View & Add →</button>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="card-wrap" id="card-5" onclick="openModal(5)" style="cursor:pointer;">
+        <img src="image/rbg1.jpg" alt="Red Potli "
+          data-images='["image/rbg1.jpg","image/rbg2.jpg"]'
+          onerror="this.src='image/display.jpg'">
+        <div class="card-body">
+          <p class="card-name">Red Potli</p>
+          <p class="card-price">Rs. 2,599</p>
+          <button class="add-btn" onclick="event.stopPropagation(); openModal(5)">View & Add →</button>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="card-wrap" id="card-6" onclick="openModal(6)" style="cursor:pointer;">
+        <img src="image/p6-front.jpg" alt="Velvet Zari Jutti"
+          data-images='["image/p6-front.jpg","image/p6-side.jpg","image/p6-back.jpg","image/p6-detail.jpg"]'
+          onerror="this.src='image/display.jpg'">
+        <div class="card-body">
+          <p class="card-name">Velvet Zari Jutti</p>
+          <p class="card-price">Rs. 2,999</p>
+          <button class="add-btn" onclick="event.stopPropagation(); openModal(6)">View & Add →</button>
+        </div>
+      </div>
+
+      <!-- Card 7 -->
+      <div class="card-wrap" id="card-7" onclick="openModal(7)" style="cursor:pointer;">
+        <img src="image/p7-front.jpg" alt="Heritage Mojari Pair"
+          data-images='["image/p7-front.jpg","image/p7-side.jpg","image/p7-back.jpg","image/p7-detail.jpg"]'
+          onerror="this.src='image/display.jpg'">
+        <div class="card-body">
+          <p class="card-name">Heritage Mojari Pair</p>
+          <p class="card-price">Rs. 3,199</p>
+          <button class="add-btn" onclick="event.stopPropagation(); openModal(7)">View & Add →</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     WHY CHOOSE US
+══════════════════════════════════════ -->
+<section class="why-us section-pad">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Why Choose Us</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">
+          <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h3>Authentically Handcrafted</h3>
+        <p>Every pair is lovingly crafted by skilled artisans using centuries-old techniques passed down through generations in Punjab.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">
+          <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+          </svg>
+        </div>
+        <h3>Premium Leather & Fabrics</h3>
+        <p>We source only the finest genuine leather, silk threads, and traditional embroidery materials to ensure lasting beauty and comfort.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">
+          <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <h3>Made with Passion</h3>
+        <p>We believe footwear tells your story. Each jutti is an art piece — shaped, stitched and embroidered with care and devotion.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">
+          <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/>
+            <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+          </svg>
+        </div>
+        <h3>Fast Nationwide Delivery</h3>
+        <p>We deliver across Pakistan within 3–5 working days. Express delivery available for urgent orders, with real-time tracking.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">
+          <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <h3>Easy Returns</h3>
+        <p>Not the right fit? Return within 7 days, no questions asked. We offer full exchange or refund on all orders.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">
+          <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3>Custom Orders Welcome</h3>
+        <p>Want a jutti tailored to your design? We accept bespoke orders for weddings, events and gifting. Contact us to discuss.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     TESTIMONIALS
+══════════════════════════════════════ -->
+<section class="testimonials section-pad">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">What Our Customers Say</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="quote-mark">"</div>
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">Absolutely stunning juttis! I wore them to my cousin's wedding and received so many compliments. The embroidery is incredibly detailed and they were comfortable all day long.</p>
+        <div class="testi-author">
+          <div class="author-avatar">A</div>
+          <div>
+            <div class="author-name">Ayusha Pujari</div>
+            <div class="author-loc">Banasthali, Kathmandu</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="quote-mark">"</div>
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">I ordered a custom pair for my sister's mehndi and JUtti.com exceeded all expectations. The quality and craftsmanship is truly something special. Will order again!</p>
+        <div class="testi-author">
+          <div class="author-avatar">S</div>
+          <div>
+            <div class="author-name">Saru Dongol</div>
+            <div class="author-loc">Dallu, Kathmandu</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="quote-mark">"</div>
+        <div class="stars">★★★★☆</div>
+        <p class="testi-text">Delivery was quick and the packaging was beautiful. The juttis look even better in person than in the photos. Sizing guide was accurate and helpful.</p>
+        <div class="testi-author">
+          <div class="author-avatar">Z</div>
+          <div>
+            <div class="author-name">Sarita Maharjan </div>
+            <div class="author-loc">Teku, Kathmandu</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     ABOUT US
+══════════════════════════════════════ -->
+<section class="about section-pad" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img-wrap">
+        <div class="about-img-placeholder">
+          <img src="image/demo.png" alt="About JUtti.com – Handcrafted Footwear" class="about-img" onerror="this.style.display='none'">
+        </div>
+        <div class="about-accent-box">
+          <span class="num">15+</span>
+          <span class="lbl">Years of Craft</span>
+        </div>
+      </div>
+      <div class="about-content">
+        <p class="about-eyebrow">Our Story</p>
+        <h2 class="about-title">Rooted in Tradition,<br>Crafted with Love</h2>
+        <p class="about-desc">JUtti.com was born from a deep love for Pakistan's rich artisan heritage. What started as a small workshop in Lahore's old city has grown into a beloved destination for handcrafted traditional footwear.</p>
+        <p class="about-desc">Every pair of juttis we create is a story — of skilled hands, of threads woven with patience, of leather shaped with precision and pride. We work directly with local craftsmen to ensure fair wages and preserve age-old techniques.</p>
+        <ul class="about-list">
+          <li>100% genuine leather and natural fabrics</li>
+          <li>Hand-stitched by certified artisans</li>
+          <li>Over 200 unique designs in our catalog</li>
+          <li>Custom bridal and event collections available</li>
+          <li>Ethically sourced materials throughout</li>
+        </ul>
+        <div class="about-stats" id="about-stats">
+          <div class="astat">
+            <div class="astat-num stat-counter" data-target="12" data-suffix="k+" data-duration="1800">0k+</div>
+            <div class="astat-lbl">Happy Customers</div>
+          </div>
+          <div class="astat">
+            <div class="astat-num stat-counter" data-target="200" data-suffix="+" data-duration="1600">0+</div>
+            <div class="astat-lbl">Unique Designs</div>
+          </div>
+          <div class="astat">
+            <div class="astat-num stat-counter" data-target="15" data-suffix="+" data-duration="1200">0+</div>
+            <div class="astat-lbl">Expert Artisans</div>
+          </div>
+          <div class="astat">
+            <div class="astat-num stat-counter" data-target="4.9" data-suffix="★" data-decimal="1" data-duration="1400">0.0★</div>
+            <div class="astat-lbl">Average Rating</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     CONTACT
+══════════════════════════════════════ -->
+<section class="contact section-pad" id="contact">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Get in Touch</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>We'd Love to Hear From You</h3>
+        <p>Whether you have a question about sizing, want to place a custom order, or simply want to know more about our craftsmanship — our team is always happy to help.</p>
+        <ul class="contact-details">
+          <li>
+            <span class="contact-icon">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+            </span>
+            <span>P853+HV Kathmandur<br>Bhurungkhel Marg, Kathmandu 44600</span>
+          </li>
+          <li>
+            <span class="contact-icon">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+            </span>
+            <span>+9779713138243</span>
+          </li>
+          <li>
+            <span class="contact-icon">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </span>
+            <span>hello@jutti.com</span>
+          </li>
+          <li>
+            <span class="contact-icon">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </span>
+            <span>Sun–Sat: 09:30 AM – 8:30 PM</span>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <div class="contact-form">
+          <div class="form-row">
+            <div class="form-field">
+              <label>Your Name</label>
+              <input type="text" placeholder="e.g. Sumita Maharjan ">
+            </div>
+            <div class="form-field">
+              <label>Phone / WhatsApp</label>
+              <input type="tel" placeholder="+977 300 000 0000">
+            </div>
+          </div>
+          <div class="form-field">
+            <label>Email Address</label>
+            <input type="email" placeholder="you@example.com">
+          </div>
+          <div class="form-field">
+            <label>Subject</label>
+            <select>
+              <option>General Enquiry</option>
+              <option>Custom Order</option>
+              <option>Order Tracking</option>
+              <option>Return / Exchange</option>
+              <option>Sizing Help</option>
+              <option>Wholesale</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Message</label>
+            <textarea placeholder="Tell us how we can help you…"></textarea>
+          </div>
+          <button class="submit-btn" onclick="submitForm()">Send Message →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     MAP
+══════════════════════════════════════ -->
+<div class="map-section">
+  <div class="map-container">
+    <div class="map-wrap">
+      <div class="map-inner">
+        <div class="map-streets"></div>
+        <div class="map-road-h" style="top:30%"></div>
+        <div class="map-road-h" style="top:55%"></div>
+        <div class="map-road-h" style="top:75%"></div>
+        <div class="map-road-v" style="left:25%"></div>
+        <div class="map-road-v" style="left:50%"></div>
+        <div class="map-road-v" style="left:72%"></div>
+        <div class="map-pin">
+          <div class="map-pin-pulse"></div>
+          <div class="map-pin-circle"></div>
+        </div>
+        <div class="map-overlay-card">
+          <h4>JUttiDot com Store</h4>
+          <p>P853+HV Kathmandur<br>Bhurungkhel Marg, Kathmandu 44600</p>
+        </div>
+        <a class="map-open-btn" href="https://maps.app.goo.gl/Np6ssdfTZ5RnaYkW6 " target="_blank">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          Open in Maps
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="logo-text" href="#hero" style="color:#fff;">JUTTI<span style="color:var(--gold)">.</span></a>
+        <p>Handcrafted juttis rooted in tradition, made for every occasion. Bringing the artisan craftsmanship of Lahore to your doorstep since 2009.</p>
+        <div class="social-row">
+          <a class="social-btn fb" href="#" title="Facebook">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a class="social-btn insta" href="#" title="Instagram">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </a>
+          <a class="social-btn wa" href="#" title="WhatsApp">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#best-selling">Best Selling</a></li>
+          <li><a href="#collections">Collections</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+          <li><a href="#">Size Guide</a></li>
+          <li><a href="#">Track Order</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Store Hours</h4>
+        <ul class="footer-hours">
+          <li><span class="day">Monday</span><span>9.30am – 8.30pm</span></li>
+          <li><span class="day">Tuesday</span><span>9.30am – 8.30pm</span></li>
+          <li><span class="day">Wednesday</span><span>9.30am – 8.30pm</span></li>
+          <li><span class="day">Thursday</span><span>9.30am – 8.30pm</span></li>
+          <li><span class="day">Friday</span><span>9.30am – 8.30pm</span></li>
+          <li><span class="day">Saturday</span><span>9.30am – 8.30pm</span></li>
+          <li><span class="day">Sunday</span><span>9.30am – 8.30pm</span></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Newsletter</h4>
+        <p style="font-size:0.84rem;color:rgba(255,255,255,0.45);line-height:1.7;margin-bottom:12px;">
+          Get exclusive deals, new arrivals and style tips delivered to your inbox.
+        </p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="Your email address" id="newsletter-email">
+          <button onclick="subscribeNewsletter()">→</button>
+        </div>
+        <p style="font-size:0.75rem;color:rgba(255,255,255,0.3);margin-top:10px;">No spam, unsubscribe any time.</p>
+        <h4 style="margin-top:24px;">Help & Policies</h4>
+        <ul class="footer-links">
+          <li><a href="#">Shipping Policy</a></li>
+          <li><a href="#">Return & Exchange</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms & Conditions</a></li>
+          <li><a href="#">FAQs</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2025 JUtti.com · All rights reserved · Made with ♥ in Lahore</span>
+      <div class="footer-payments">
+        <span style="font-size:0.75rem;color:rgba(255,255,255,0.3);margin-right:6px;">We accept:</span>
+        <span class="pay-badge">JazzCash</span>
+        <span class="pay-badge">EasyPaisa</span>
+        <span class="pay-badge">COD</span>
+        <span class="pay-badge">Bank Transfer</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ══════════════════════════════════════
+     PRODUCT DETAIL MODAL
+══════════════════════════════════════ -->
+<div class="modal-backdrop" id="modal-backdrop" onclick="handleBackdropClick(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-top">
+      <div class="modal-gallery">
+        <div class="gallery-thumbs" id="gallery-thumbs"></div>
+        <div class="gallery-main">
+          <img id="gallery-main-img" src="" alt="Product">
+          <button class="gallery-arrow prev" onclick="galleryNav(-1)">‹</button>
+          <button class="gallery-arrow next" onclick="galleryNav(1)">›</button>
+          <div class="gallery-dots" id="gallery-dots"></div>
+        </div>
+      </div>
+      <div class="modal-info" id="modal-info">
+        <p class="modal-category-tag" id="m-cat"></p>
+        <h2 class="modal-name" id="m-name"></h2>
+        <div class="modal-rating">
+          <span class="stars" id="m-stars"></span>
+          <span class="rating-count" id="m-rating"></span>
+          <span class="sold" id="m-sold"></span>
+        </div>
+        <div class="price-row">
+          <span class="modal-price" id="m-price"></span>
+          <span class="modal-price-old" id="m-price-old"></span>
+          <span class="modal-discount" id="m-discount"></span>
+        </div>
+        <p class="modal-desc" id="m-desc"></p>
+        <p class="section-label" id="size-label-el">Select Size (EU)</p>
+        <div class="sizes-grid" id="m-sizes"></div>
+        <div class="modal-actions">
+          <button class="btn-add-cart" id="m-add-btn" onclick="modalAddToCart()" disabled>
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+            Add to Cart
+          </button>
+          <button class="btn-checkout" onclick="modalCheckout()">Buy Now</button>
+        </div>
+        <div class="modal-perks">
+          <div class="perk">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Free delivery on all orders
+          </div>
+          <div class="perk">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            100% genuine handcrafted leather
+          </div>
+          <div class="perk">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            Easy 7-day returns
+          </div>
+          <div class="perk">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            COD · JazzCash · EasyPaisa
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-recs">
+      <p class="recs-title">You May Also Like</p>
+      <div class="recs-strip" id="recs-strip"></div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout – JUtti.com</title>
+  <link href="css/checkout.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
+<style>
+/* ══ ORDER SUCCESS OVERLAY ══ */
+.order-success-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(20, 10, 5, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: overlayFadeIn 0.3s ease both;
+}
+.order-success-overlay.show {
+  display: flex;
+}
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.order-success-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 44px 36px 36px;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+  animation: cardSlideUp 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+  position: relative;
+}
+@keyframes cardSlideUp {
+  from { opacity: 0; transform: translateY(40px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Tick SVG ── */
+.success-tick-wrap {
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 24px;
+  background: #e8f5e9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.success-tick-svg {
+  width: 60px;
+  height: 60px;
+  overflow: visible;
+}
+
+/* Circle draw animation */
+.tick-circle {
+  stroke-dasharray: 226;
+  stroke-dashoffset: 226;
+  animation: drawCircle 0.55s ease 0.15s forwards;
+}
+@keyframes drawCircle {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Check draw animation */
+.tick-check {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  fill: none;
+  animation: drawCheck 0.4s ease 0.65s forwards;
+}
+@keyframes drawCheck {
+  to { stroke-dashoffset: 0; }
+}
+
+/* ── Text ── */
+.success-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #1b5e20;
+  margin: 0 0 14px;
+  line-height: 1.3;
+}
+.success-body {
+  font-size: 0.88rem;
+  color: #555;
+  line-height: 1.75;
+  margin: 0 0 10px;
+}
+.success-body strong { color: #2e7d32; }
+
+/* ── Buttons ── */
+.success-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 28px;
+}
+.wa-send-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #25d366;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 15px 24px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 18px rgba(37, 211, 102, 0.35);
+  -webkit-tap-highlight-color: transparent;
+}
+.wa-send-btn:hover { background: #1ebe5d; transform: translateY(-1px); box-shadow: 0 6px 22px rgba(37,211,102,0.45); }
+.wa-send-btn:active { transform: translateY(0); }
+.success-back-btn {
+  background: none;
+  border: 1.5px solid #ddd;
+  border-radius: 12px;
+  padding: 13px 24px;
+  font-size: 0.88rem;
+  color: #777;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.success-back-btn:hover { border-color: #aaa; color: #333; }
+
+@media (max-width: 480px) {
+  .order-success-card { padding: 36px 22px 28px; }
+  .success-heading { font-size: 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ══ -->
+<header class="navbar">
+  <a class="logo-text" href="index.html">JUTTI<span>.</span></a>
+  <div class="nav-steps">
+    <span class="step done">🛍 Cart</span>
+    <span class="step-sep">›</span>
+    <span class="step active">📋 Details</span>
+    <span class="step-sep">›</span>
+    <span class="step todo">✓ Confirm</span>
+  </div>
+  <a class="nav-back" href="index.html">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+    </svg>
+    Back to Shop
+  </a>
+</header>
+
+<!-- ══ PAGE ══ -->
+<div class="page-wrap">
+  <p class="page-title">Complete Your Order</p>
+  <p class="page-sub">Fill in your details below and we'll confirm your order via WhatsApp.</p>
+
+  <div class="checkout-grid">
+
+    <!-- ══ LEFT: ORDER FORM ══ -->
+    <div class="form-panel">
+      <p class="panel-title">Your Information</p>
+      <p class="panel-sub">We'll use this to process and deliver your order.</p>
+
+      <!-- Name + Phone -->
+      <div class="form-row">
+        <div class="form-field">
+          <label>Full Name <span class="required">*</span></label>
+          <input type="text" id="f-name" placeholder="e.g. Ayesha Khan" autocomplete="name">
+          <p class="err-msg" id="err-name">Please enter your name.</p>
+        </div>
+        <div class="form-field">
+          <label>Phone / WhatsApp <span class="required">*</span></label>
+          <input type="tel" id="f-phone" placeholder="+92 300 000 0000" autocomplete="tel">
+          <p class="err-msg" id="err-phone">Please enter a valid phone number.</p>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-field">
+        <label>Email Address <span class="optional">(optional)</span></label>
+        <input type="email" id="f-email" placeholder="you@example.com" autocomplete="email">
+        <p class="err-msg" id="err-email">Please enter a valid email.</p>
+      </div>
+
+      <!-- Address -->
+      <div class="form-field">
+        <label>Delivery Address <span class="required">*</span></label>
+        <input type="text" id="f-address" placeholder="House no., Street, Area, City" autocomplete="street-address">
+        <p class="err-msg" id="err-address">Please enter your delivery address.</p>
+      </div>
+
+      <!-- Location Description -->
+      <div class="form-field">
+        <label>Describe Your Location <span class="optional">(optional but helpful)</span></label>
+        <textarea id="f-location" placeholder="e.g. Near the blue mosque, second lane after the bakery, white gate with a red door…"></textarea>
+        <p class="field-hint">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          Help our delivery rider find you faster with landmarks or directions.
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- PAYMENT METHOD -->
+      <div class="form-section-title">Payment Method <span class="required">*</span></div>
+      <p class="panel-sub" style="margin-bottom:16px;">Choose how you'd like to pay for your order.</p>
+      <div class="payment-options">
+        <label class="payment-card" id="pay-card-cod">
+          <input type="radio" name="payment" value="cod" id="pay-cod">
+          <div class="payment-card-inner">
+            <span class="pay-icon">💵</span>
+            <div class="pay-details">
+              <p class="pay-title">Cash on Delivery</p>
+              <p class="pay-desc">Pay when your order arrives at your door.</p>
+            </div>
+            <span class="pay-check">✓</span>
+          </div>
+        </label>
+        <label class="payment-card" id="pay-card-online">
+          <input type="radio" name="payment" value="online" id="pay-online">
+          <div class="payment-card-inner">
+            <span class="pay-icon">📱</span>
+            <div class="pay-details">
+              <p class="pay-title">Online Payment</p>
+              <p class="pay-desc">JazzCash, EasyPaisa or Bank Transfer.</p>
+            </div>
+            <span class="pay-check">✓</span>
+          </div>
+        </label>
+      </div>
+      <p class="err-msg" id="err-payment">Please select a payment method.</p>
+
+      <div class="divider"></div>
+
+      <!-- PROMO CODE -->
+      <div class="form-section-title">Promo Code <span class="optional">(optional)</span></div>
+      <p class="panel-sub" style="margin-bottom:14px;">Have a discount code? Enter it below.</p>
+      <div class="promo-row">
+        <input type="text" id="f-promo" placeholder="e.g. JUTTI10" autocomplete="off" style="text-transform:uppercase;">
+        <button type="button" class="promo-apply-btn" onclick="applyPromo()">Apply</button>
+      </div>
+      <p class="promo-msg" id="promo-msg"></p>
+
+      <div class="divider"></div>
+
+      <!-- SUBMIT → WhatsApp -->
+      <button class="submit-btn" onclick="submitOrder()">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+        </svg>
+        Place Order via WhatsApp
+      </button>
+      <p class="submit-note">
+        Tapping this will open WhatsApp with your order details pre-filled.
+        We'll confirm availability &amp; delivery time right away.
+      </p>
+    </div>
+
+    <!-- ══ RIGHT: CART SUMMARY ══ -->
+    <div class="cart-panel">
+      <div class="cart-panel-head">
+        <h3>Order Summary</h3>
+        <span class="cart-count-badge" id="cart-count-badge">0 items</span>
+      </div>
+
+      <div class="cart-items-list" id="cart-items-list">
+        <!-- filled by JS -->
+      </div>
+
+      <div class="cart-summary" id="cart-summary" style="display:none">
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="summary-subtotal">Rs. 0</span>
+        </div>
+        <div class="summary-row" id="summary-discount-row" style="display:none;color:#388e3c;">
+          <span id="summary-discount-label">Promo</span>
+          <span id="summary-discount-val" style="font-weight:700">- Rs. 0</span>
+        </div>
+        <div class="summary-row" id="summary-delivery-row">
+          <span>Delivery</span>
+          <span id="summary-delivery-val" style="font-weight:600">Rs. 150</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total</span>
+          <span id="summary-total">Rs. 0</span>
+        </div>
+      </div>
+
+      <div class="cart-note">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        Payment is collected on delivery (COD). We accept JazzCash, EasyPaisa &amp; Bank Transfer too.
+      </div>
+    </div>
+
+  </div><!-- /checkout-grid -->
+</div><!-- /page-wrap -->
+
+<div id="toast"></div>
+
+<!-- ══ ORDER SUCCESS POPUP ══ -->
+<div id="order-success-overlay" class="order-success-overlay" role="dialog" aria-modal="true" aria-labelledby="success-title">
+  <div class="order-success-card">
+
+    <!-- Tick animation -->
+    <div class="success-tick-wrap">
+      <svg class="success-tick-svg" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle class="tick-circle" cx="40" cy="40" r="36" stroke="#2e7d32" stroke-width="4"/>
+        <polyline class="tick-check" points="22,42 34,54 58,28" stroke="#2e7d32" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <h2 class="success-heading" id="success-title">Thank You for Your Order!</h2>
+    <p class="success-body">
+      We truly appreciate your purchase and are grateful for your trust in us.
+      Your order has been received successfully, and the next steps will be handled
+      through WhatsApp for a smooth and quick process.
+    </p>
+    <p class="success-body">
+      Simply click the <strong>"Confirm Order"</strong> button below to share your order
+      details with us. Once we receive your message, we will confirm your order and assist
+      you further with delivery and any additional information you may need.
+    </p>
+
+    <div class="success-actions">
+      <button class="wa-send-btn" id="wa-send-btn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12.004 2C6.477 2 2 6.477 2 12.004c0 1.771.464 3.432 1.277 4.876L2 22l5.29-1.252A9.963 9.963 0 0 0 12.004 22C17.53 22 22 17.523 22 12.004 22 6.477 17.53 2 12.004 2zm0 18.195a8.17 8.17 0 0 1-4.167-1.138l-.299-.178-3.097.733.777-3.016-.196-.31A8.195 8.195 0 1 1 12.004 20.195z"/>
+        </svg>
+        Comfirm Order via WhatsApp
+      </button>
+      <button class="success-back-btn" onclick="window.location.href='index.html'">
+        Continue Shopping
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="footer-logo" href="index.html">JUTTI<span>.</span></a>
+      <p>Handcrafted Pakistani juttis made with love — bringing tradition to your doorstep, one pair at a time.</p>
+      <div class="social-row">
+        <a class="social-btn insta" href="#" aria-label="Instagram">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a class="social-btn fb" href="#" aria-label="Facebook">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a class="social-btn wa" href="#" aria-label="WhatsApp">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul class="footer-links">
+        <li><a href="index.html">All Juttis</a></li>
+        <li><a href="#">New Arrivals</a></li>
+        <li><a href="#">Bridal Collection</a></li>
+        <li><a href="#">Men's Juttis</a></li>
+        <li><a href="#">Sale</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+      <ul class="footer-links">
+        <li><a href="#">Size Guide</a></li>
+        <li><a href="#">Shipping Info</a></li>
+        <li><a href="#">Returns</a></li>
+        <li><a href="#">Track Order</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Stay in Touch</h4>
+      <p style="font-size:0.8rem;color:rgba(255,255,255,0.4);margin-bottom:14px;line-height:1.6;">Get early access to new arrivals and exclusive deals.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="your@email.com">
+        <button>→</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 JUtti.com · All rights reserved</span>
+    <div class="footer-payments">
+      <span>We accept:</span>
+      <span class="pay-badge">COD</span>
+      <span class="pay-badge">JazzCash</span>
+      <span class="pay-badge">EasyPaisa</span>
+      <span class="pay-badge">Bank Transfer</span>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+/* ════════════════════════════════════
+   CHECKOUT PAGE — script
+════════════════════════════════════ */
+
+// ── YOUR WHATSAPP NUMBER ─────────────────────────────────────────
+const WHATSAPP_NUMBER = "9779861093668";
+
+// ── DELIVERY CHARGE ──────────────────────────────────────────────
+const DELIVERY_CHARGE = 150;
+
+// ── PROMO CODES ──────────────────────────────────────────────────
+// type: "percent"  → discount % off subtotal
+// type: "delivery" → makes delivery FREE
+// Each code can only be used ONCE (tracked in localStorage)
+const PROMO_CODES = {
+  "JUTTI10":    { type: "percent",  value: 10,  label: "10% off"       },
+  "SAVE15":     { type: "percent",  value: 15,  label: "15% off"       },
+  "WELCOME20":  { type: "percent",  value: 20,  label: "20% off"       },
+  "FREESHIP":   { type: "delivery", value: 0,   label: "Free Delivery" },
+};
+// ────────────────────────────────────────────────────────────────
+
+let cart = [];
+let appliedPromo = null; // { code, type, value, label }
+
+try { cart = JSON.parse(localStorage.getItem('jutti_cart') || '[]'); }
+catch(e) { cart = []; }
+
+/* ── Get set of already-used promo codes from localStorage ── */
+function getUsedCodes() {
+  try { return new Set(JSON.parse(localStorage.getItem('jutti_used_promos') || '[]')); }
+  catch(e) { return new Set(); }
+}
+function markCodeUsed(code) {
+  const used = getUsedCodes();
+  used.add(code);
+  localStorage.setItem('jutti_used_promos', JSON.stringify([...used]));
+}
+
+/* ── Calculate totals ── */
+function calcTotals() {
+  const subtotal = cart.reduce((s, i) => s + i.numPrice * i.qty, 0);
+  let discountAmt  = 0;
+  let delivery     = DELIVERY_CHARGE;
+
+  if (appliedPromo) {
+    if (appliedPromo.type === 'percent') {
+      discountAmt = Math.round(subtotal * appliedPromo.value / 100);
+    } else if (appliedPromo.type === 'delivery') {
+      delivery = 0;
+    }
+  }
+
+  const total = subtotal - discountAmt + delivery;
+  return { subtotal, discountAmt, delivery, total };
+}
+
+/* ── Update the summary panel numbers ── */
+function updateSummaryTotals() {
+  const { subtotal, discountAmt, delivery, total } = calcTotals();
+
+  document.getElementById('summary-subtotal').textContent = `Rs. ${subtotal.toLocaleString()}`;
+  document.getElementById('summary-total').textContent    = `Rs. ${total.toLocaleString()}`;
+
+  // Delivery row
+  const deliveryEl = document.getElementById('summary-delivery-val');
+  if (delivery === 0) {
+    deliveryEl.textContent = 'FREE';
+    deliveryEl.style.color = '#388e3c';
+  } else {
+    deliveryEl.textContent = `Rs. ${delivery.toLocaleString()}`;
+    deliveryEl.style.color = '';
+  }
+
+  // Discount row
+  const discountRow = document.getElementById('summary-discount-row');
+  if (appliedPromo && discountAmt > 0) {
+    document.getElementById('summary-discount-label').textContent = `Promo (${appliedPromo.code})`;
+    document.getElementById('summary-discount-val').textContent   = `- Rs. ${discountAmt.toLocaleString()}`;
+    discountRow.style.display = 'flex';
+  } else if (appliedPromo && appliedPromo.type === 'delivery') {
+    document.getElementById('summary-discount-label').textContent = `Promo (${appliedPromo.code})`;
+    document.getElementById('summary-discount-val').textContent   = 'Free Delivery';
+    discountRow.style.display = 'flex';
+  } else {
+    discountRow.style.display = 'none';
+  }
+}
+
+/* ── Render cart items list ── */
+function renderCartPanel() {
+  const listEl    = document.getElementById('cart-items-list');
+  const summaryEl = document.getElementById('cart-summary');
+  const badgeEl   = document.getElementById('cart-count-badge');
+  const totalQty  = cart.reduce((s, i) => s + i.qty, 0);
+
+  badgeEl.textContent = `${totalQty} item${totalQty !== 1 ? 's' : ''}`;
+
+  if (cart.length === 0) {
+    listEl.innerHTML = `
+      <div class="cart-empty-msg">
+        <svg width="48" height="48" fill="none" stroke="#c8a97e" stroke-width="1.2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        Your cart is empty.<br>
+        <a href="index.html" style="color:#a9793b;font-weight:700;text-decoration:none;">← Go back and add items</a>
+      </div>`;
+    summaryEl.style.display = 'none';
+    return;
+  }
+
+  listEl.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div class="ci-icon">👟</div>
+      <div class="ci-details">
+        <p class="ci-name">${item.name}</p>
+        <p class="ci-meta">Size ${item.size} &nbsp;·&nbsp; ${item.price}</p>
+      </div>
+      <span class="ci-qty">× ${item.qty}</span>
+      <div class="ci-price">Rs. ${(item.numPrice * item.qty).toLocaleString()}</div>
+    </div>
+  `).join('');
+
+  summaryEl.style.display = 'block';
+  updateSummaryTotals();
+}
+
+/* ── Apply promo code ── */
+function applyPromo() {
+  const inputEl = document.getElementById('f-promo');
+  const msgEl   = document.getElementById('promo-msg');
+  const code    = inputEl.value.trim().toUpperCase();
+
+  if (!code) {
+    msgEl.textContent = 'Please enter a promo code.';
+    msgEl.className = 'promo-msg show fail';
+    return;
+  }
+
+  const promo = PROMO_CODES[code];
+
+  if (!promo) {
+    appliedPromo = null;
+    msgEl.textContent = '❌ Invalid promo code. Please try again.';
+    msgEl.className = 'promo-msg show fail';
+    inputEl.classList.add('error');
+    return;
+  }
+
+  // One-time use check
+  if (getUsedCodes().has(code)) {
+    appliedPromo = null;
+    msgEl.textContent = '⚠️ This code has already been used.';
+    msgEl.className = 'promo-msg show fail';
+    inputEl.classList.add('error');
+    return;
+  }
+
+  // Valid and unused — apply it
+  appliedPromo = { code, ...promo };
+  inputEl.disabled = true;
+  inputEl.style.color = '#388e3c';
+  inputEl.style.fontWeight = '700';
+  const applyBtn = document.querySelector('.promo-apply-btn');
+  applyBtn.textContent = '✓ Applied';
+  applyBtn.disabled = true;
+  applyBtn.style.background = '#e8f5e9';
+  applyBtn.style.color = '#388e3c';
+  applyBtn.style.borderColor = '#a5d6a7';
+
+  msgEl.textContent = `🎉 "${code}" applied — ${promo.label}!`;
+  msgEl.className = 'promo-msg show success';
+
+  updateSummaryTotals();
+}
+
+/* ── Validate form ── */
+function validateForm() {
+  let valid = true;
+
+  const fields = [
+    { id: 'f-name',    err: 'err-name',    check: v => v.trim().length >= 2 },
+    { id: 'f-phone',   err: 'err-phone',   check: v => /^[+\d\s\-()]{7,}$/.test(v.trim()) },
+    { id: 'f-address', err: 'err-address', check: v => v.trim().length >= 5 },
+  ];
+
+  const emailVal = document.getElementById('f-email').value.trim();
+  if (emailVal && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+    document.getElementById('f-email').classList.add('error');
+    document.getElementById('err-email').classList.add('show');
+    valid = false;
+  } else {
+    document.getElementById('f-email').classList.remove('error');
+    document.getElementById('err-email').classList.remove('show');
+  }
+
+  fields.forEach(({ id, err, check }) => {
+    const el  = document.getElementById(id);
+    const msg = document.getElementById(err);
+    if (!check(el.value)) {
+      el.classList.add('error');
+      msg.classList.add('show');
+      valid = false;
+    } else {
+      el.classList.remove('error');
+      msg.classList.remove('show');
+    }
+  });
+
+  const paymentSelected = document.querySelector('input[name="payment"]:checked');
+  const paymentErr      = document.getElementById('err-payment');
+  const paymentOptions  = document.querySelector('.payment-options');
+  if (!paymentSelected) {
+    paymentErr.classList.add('show');
+    paymentOptions.classList.add('error-highlight');
+    valid = false;
+  } else {
+    paymentErr.classList.remove('show');
+    paymentOptions.classList.remove('error-highlight');
+  }
+
+  return valid;
+}
+
+/* ── Build WhatsApp message ── */
+function buildWhatsAppMessage() {
+  const name     = document.getElementById('f-name').value.trim();
+  const phone    = document.getElementById('f-phone').value.trim();
+  const email    = document.getElementById('f-email').value.trim();
+  const address  = document.getElementById('f-address').value.trim();
+  const location = document.getElementById('f-location').value.trim();
+  const payment  = document.querySelector('input[name="payment"]:checked').value;
+  const payLabel = payment === 'cod' ? 'Cash on Delivery (COD)' : 'Online Payment (JazzCash / EasyPaisa / Bank)';
+
+  const totalQty = cart.reduce((s, i) => s + i.qty, 0);
+  const { subtotal, discountAmt, delivery, total } = calcTotals();
+
+  const itemLines = cart.map(item =>
+    `  • ${item.name} | Size ${item.size} | ${item.price} × ${item.qty} = Rs. ${(item.numPrice * item.qty).toLocaleString()}`
+  ).join('\n');
+
+  let msg = `🛍 *New Order – JUtti.com*\n`;
+  msg += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  msg += `👤 *Customer Details*\n`;
+  msg += `Name    : ${name}\n`;
+  msg += `Phone   : ${phone}\n`;
+  if (email) msg += `Email   : ${email}\n`;
+  msg += `Address : ${address}\n`;
+  if (location) msg += `Location: ${location}\n`;
+  msg += `\n`;
+  msg += `📦 *Order Items (${totalQty} item${totalQty !== 1 ? 's' : ''})*\n`;
+  msg += `${itemLines}\n\n`;
+  msg += `💰 Subtotal  : Rs. ${subtotal.toLocaleString()}\n`;
+  if (appliedPromo && discountAmt > 0)
+    msg += `🏷 Promo (${appliedPromo.code}): - Rs. ${discountAmt.toLocaleString()}\n`;
+  if (appliedPromo && appliedPromo.type === 'delivery')
+    msg += `🏷 Promo (${appliedPromo.code}): Free Delivery\n`;
+  msg += `🚚 Delivery  : ${delivery === 0 ? 'FREE' : 'Rs. ' + delivery.toLocaleString()}\n`;
+  msg += `💰 *Total    : Rs. ${total.toLocaleString()}*\n`;
+  msg += `💳 Payment   : ${payLabel}\n\n`;
+  msg += `_Please confirm availability & delivery time. Thank you!_`;
+
+  return msg;
+}
+
+/* ── Submit order ── */
+function submitOrder() {
+  if (cart.length === 0) {
+    showToast('Your cart is empty! Add items first.');
+    return;
+  }
+  if (!validateForm()) {
+    showToast('Please fill in the required fields.');
+    const firstErr = document.querySelector('input.error, textarea.error');
+    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  // Mark promo as used ONLY at order submission
+  if (appliedPromo) markCodeUsed(appliedPromo.code);
+
+  const msg     = buildWhatsAppMessage();
+  const encoded = encodeURIComponent(msg);
+  const waUrl   = `https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`;
+
+  // Clear cart immediately after order is placed
+  cart = [];
+  try { localStorage.removeItem('jutti_cart'); } catch(e) {}
+  renderCartPanel();
+
+  // Show success popup; wire the WhatsApp button
+  const overlay = document.getElementById('order-success-overlay');
+  const waBtn   = document.getElementById('wa-send-btn');
+  overlay.classList.add('show');
+  waBtn.onclick = () => window.open(waUrl, '_blank');
+}
+
+/* ── Toast ── */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* ── Init ── */
+document.addEventListener('DOMContentLoaded', () => {
+  renderCartPanel();
+
+  ['f-name','f-phone','f-email','f-address','f-location'].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', () => {
+      el.classList.remove('error');
+      const errEl = document.getElementById('err-' + id.replace('f-', ''));
+      if (errEl) errEl.classList.remove('show');
+    });
+  });
+
+  document.querySelectorAll('input[name="payment"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      document.getElementById('err-payment').classList.remove('show');
+      document.querySelector('.payment-options').classList.remove('error-highlight');
+    });
+  });
+
+  document.getElementById('f-promo').addEventListener('input', function() {
+    if (this.disabled) return;
+    this.classList.remove('error');
+    this.value = this.value.toUpperCase();
+    document.getElementById('promo-msg').className = 'promo-msg';
+  });
+
+  // Allow pressing Enter in promo field to apply
+  document.getElementById('f-promo').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); applyPromo(); }
+  });
+});
+</script>
+</body>
+</html>

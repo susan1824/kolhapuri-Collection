@@ -1,0 +1,42 @@
+<svg width="800" height="300" viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .brand {
+      font-family: "Times New Roman", Georgia, serif;
+      font-size: 72px;
+      fill: #000000; /* changed to black */
+      letter-spacing: 4px;
+    }
+    .tagline {
+      font-family: Arial, sans-serif;
+      font-size: 22px;
+      fill: #b8893a;
+      letter-spacing: 6px;
+    }
+    .line {
+      stroke: #b8893a;
+      stroke-width: 2;
+    }
+  </style>
+
+  <!-- Top decorative mark -->
+  <g transform="translate(400,60)" fill="#b8893a">
+    <path d="M0,-20 C5,-10 5,0 0,10 C-5,0 -5,-10 0,-20Z"></path>
+    <path d="M-20,-5 C-10,-5 -5,0 -5,10 C-15,5 -20,0 -20,-5Z"></path>
+    <path d="M20,-5 C10,-5 5,0 5,10 C15,5 20,0 20,-5Z"></path>
+  </g>
+
+  <!-- Main text -->
+  <text x="400" y="150" text-anchor="middle" class="brand">
+    JUTTI.COM
+  </text>
+
+  <!-- Tagline -->
+  <text x="400" y="210" text-anchor="middle" dominant-baseline="middle" class="tagline">
+    STEP IN STYLE
+  </text>
+
+  <!-- Lines aligned with text -->
+  <line x1="140" y1="210" x2="270" y2="210" class="line"></line>
+  <line x1="530" y1="210" x2="660" y2="210" class="line"></line>
+
+</svg>
