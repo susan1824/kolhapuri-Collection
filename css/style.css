@@ -1,740 +1,1456 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JuttiDot com – Handcrafted Traditional Footwear</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+<<<<<<< HEAD
+/* ══════════════════════════════════════
+   JUTTI.COM — style.css
+══════════════════════════════════════ */
 
-<!-- ══════════════════════════════════════
-     SEARCH OVERLAY
-══════════════════════════════════════ -->
-<div class="search-overlay" id="search-overlay">
-  <button class="search-close-btn" onclick="closeSearch()">✕</button>
-  <div class="search-box">
-    <div class="search-input-wrap">
-      <input type="text" id="search-input" placeholder="Search for juttis, styles, occasions…" autocomplete="off">
-      <button class="search-submit" onclick="doSearch()">Search</button>
-    </div>
-    <div class="search-results" id="search-results-label">Try: embroidered, wedding, mojari, punjabi…</div>
-    <div class="search-tags" id="search-tags">
-      <span class="search-tag" onclick="fillSearch('Embroidered Jutti')">Embroidered</span>
-      <span class="search-tag" onclick="fillSearch('Wedding Jutti')">Wedding</span>
-      <span class="search-tag" onclick="fillSearch('Mojari')">Mojari</span>
-      <span class="search-tag" onclick="fillSearch('Punjabi Jutti')">Punjabi Style</span>
-      <span class="search-tag" onclick="fillSearch('Golden Jutti')">Golden</span>
-      <span class="search-tag" onclick="fillSearch('Casual Jutti')">Casual</span>
-    </div>
-    <div class="search-results-list" id="search-results-list"></div>
-  </div>
-</div>
+/* ── RESET & ROOT ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold:      #c8a97e;
+  --gold-dark: #a9793b;
+  --gold-deep: #cd9932;
+  --cream:     #faf5f0;
+  --cream-2:   #f7f2ec;
+  --cream-3:   #faf1e7;
+  --warm:      #fbf3ed;
+  --text:      #2b1d14;
+  --muted:     #7a6658;
+  --border:    #e8e0d4;
+  --accent:    #b3864a;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  overflow-x: hidden;
+}
 
-<!-- ══════════════════════════════════════
-     NAVBAR
-══════════════════════════════════════ -->
-<header class="navbar" id="navbar">
-  <div class="nav-left">
-    <a class="logo-text" href="#hero">JUTTI<span>.com</span></a>
-  </div>
+/* ══════════════════════════════════════
+   SEARCH OVERLAY
+══════════════════════════════════════ */
+.search-overlay {
+  position: fixed; inset: 0;
+  background: rgba(42,28,18,0.88);
+  z-index: 5000;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding-top: 120px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+  backdrop-filter: blur(6px);
+}
+.search-overlay.open { opacity: 1; pointer-events: all; }
 
-  <nav class="nav-center" id="nav-menu">
-    <a href="#hero" class="nav-link active">Home</a>
-    <a href="#best-selling" class="nav-link">Best Selling</a>
-    <a href="collection.html" class="nav-link">Collections</a>
-    <a href="#about" class="nav-link">About Us</a>
-    <a href="#contact" class="nav-link">Contact</a>
-  </nav>
+.search-box {
+  width: 640px; max-width: 92vw;
+  animation: slideDown 0.35s ease both;
+}
+.search-input-wrap {
+  display: flex; align-items: center;
+  background: #fff; border-radius: 50px;
+  padding: 6px 6px 6px 24px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.search-input-wrap input {
+  flex: 1; border: none; outline: none;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem; color: var(--text);
+  background: transparent;
+}
+.search-input-wrap input::placeholder { color: #bbb; }
+.search-submit {
+  background: var(--gold-dark); color: #fff;
+  border: none; padding: 10px 20px;
+  border-radius: 50px; cursor: pointer;
+  font-size: 13px; font-weight: 600;
+  letter-spacing: 1px; transition: background 0.2s;
+}
+.search-submit:hover { background: var(--gold-deep); }
+.search-close-btn {
+  position: absolute; top: 28px; right: 32px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff; border-radius: 50%;
+  width: 40px; height: 40px;
+  font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.search-close-btn:hover { background: rgba(255,255,255,0.2); }
 
-  <div class="nav-right">
-    <button class="icon-btn" onclick="openSearch()" title="Search">
-      <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"
-        stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
-        <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-      </svg>
-    </button>
-    <div class="cart" id="cart-trigger" onclick="toggleCart()">
-      <div class="cart-icon-wrap">
-        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"
-          stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
-          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-          <line x1="3" y1="6" x2="21" y2="6"/>
-          <path d="M16 10a4 4 0 0 1-8 0"/>
-        </svg>
-        <span class="badge" id="cart-badge">0</span>
-      </div>
-      
-    </div>
-    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</header>
+.search-results {
+  margin-top: 20px; color: #fff;
+  font-size: 13px; text-align: center; opacity: 0.7;
+}
+.search-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  justify-content: center; margin-top: 16px;
+}
+.search-tag {
+  background: rgba(255,255,255,0.12);
+  color: #f0e4d2;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 20px; padding: 5px 14px;
+  font-size: 12px; cursor: pointer; transition: background 0.2s;
+}
+.search-tag:hover { background: rgba(200,169,126,0.4); }
+.search-results-list {
+  margin-top: 18px; display: flex; flex-direction: column; gap: 8px;
+}
+.search-result-item {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px; padding: 12px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer; transition: background 0.2s; color: #f0e4d2;
+}
+.search-result-item:hover { background: rgba(200,169,126,0.25); }
+.sri-name { font-size: 14px; font-weight: 600; }
+.sri-price { font-size: 13px; color: var(--gold); }
 
-<!-- ══════════════════════════════════════
-     HERO
-══════════════════════════════════════ -->
-<section class="hero" id="hero">
-  <div class="hero-content">
-    <p class="eyebrow">Step Into Tradition</p>
-    <h1 class="hero-title">Timeless Style.</h1>
-    <span class="hero-title-accent">Every Step.</span>
-    <p class="hero-desc">
-      Discover beautifully handcrafted juttis that blend tradition,
-      comfort and elegance for every occasion.
-    </p>
-    <a href="collection.html" class="cta-btn">
-      Shop Now
-      <svg class="cta-arrow" viewBox="0 0 18 18">
-        <line x1="2" y1="9" x2="16" y2="9"/>
-        <polyline points="10,3 16,9 10,15"/>
-      </svg>
-    </a>
-  </div>
+/* ══════════════════════════════════════
+   NAVBAR
+══════════════════════════════════════ */
+.navbar {
+  position: sticky; top: 0; z-index: 2000;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 20px;
+  background: var(--cream);
+  backdrop-filter: blur(10px);
+  transition: 0.3s; width: 100%;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+.navbar.scrolled { box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
 
-  <div class="hero-visual">
-    <div class="circle-bg">
-      <img src="image/shoe.png" alt="Handcrafted embroidered Jutti" class="hero-shoe-img"
-        onerror="this.style.display='none'"/>
-    </div>
-  </div>
+.nav-left { display: flex; align-items: center; gap: 5px; }
+.logo-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem; font-weight: 700; color: var(--text);
+  letter-spacing: -0.5px; text-decoration: none;
+}
+.logo-text span { color: var(--accent); }
 
-  <div class="trust-bar">
-    <div class="trust-item">
-      <span class="trust-icon">
-        <svg width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 32 32" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="16" cy="16" r="13"/><path d="M16 8l2 5h5l-4 3 1.5 5L16 18l-4.5 3 1.5-5-4-3h5z"/>
-        </svg>
-      </span>
-      <div class="trust-label">Premium Quality<span>Finest materials</span></div>
-    </div>
-    <div class="trust-item">
-      <span class="trust-icon">
-        <svg width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 32 32" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M6 28c0-7 4-12 10-14"/>
-          <path d="M14 14c2-6 8-10 12-10-2 6-6 10-12 14"/>
-          <path d="M14 14c-2-4-6-7-10-7 1 5 4 9 10 14"/>
-        </svg>
-      </span>
-      <div class="trust-label">Handcrafted with Care<span>Artisan made</span></div>
-    </div>
-    <div class="trust-item">
-      <span class="trust-icon">
-        <svg width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 32 32" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M16 6c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10S21.5 6 16 6z"/>
-          <path d="M16 10v6l4 2"/>
-        </svg>
-      </span>
-      <div class="trust-label">All Day Comfort<span>Ergonomic fit</span></div>
-    </div>
-    <div class="trust-item">
-      <span class="trust-icon">
-        <svg width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 32 32" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="12" width="22" height="12" rx="2"/>
-          <path d="M24 18h4l2 3v3h-6"/>
-          <circle cx="8" cy="26" r="2.5"/><circle cx="22" cy="26" r="2.5"/>
-        </svg>
-      </span>
-      <div class="trust-label">Fast Delivery<span>Hassle-free returns</span></div>
-    </div>
-  </div>
-</section>
+.nav-center { display: flex; }
+.nav-center a {
+  margin: 0 18px; text-decoration: none;
+  color: #444; position: relative; padding-bottom: 5px;
+  font-size: 0.88rem; font-weight: 500;
+}
+.nav-center a::after {
+  content: ""; position: absolute; left: 0; bottom: 0;
+  width: 0%; height: 2px; background: var(--gold);
+  transition: width 0.3s ease;
+}
+.nav-center a:hover::after,
+.nav-center a.active::after { width: 100%; }
 
-<!-- ══════════════════════════════════════
-     BEST SELLING
-══════════════════════════════════════ -->
-<section class="best-selling section-pad" id="best-selling">
-  <div class="container">
-    <div class="best-header">
-      <h2 class="section-title"><span>Best Selling</span></h2>
-      <a href="collection.html" class="view-all">View All →</a>
-    </div>
+.nav-right { display: flex; gap: 20px; align-items: center; }
+.icon-btn {
+  background: none; border: none; cursor: pointer;
+  color: var(--text); padding: 4px;
+  display: flex; align-items: center;
+}
+.icon-btn svg { width: 22px; height: 22px; }
 
-    <div class="collection-grid">
+.cart { position: relative; cursor: pointer; }
+.cart svg { width: 22px; height: 22px; }
+.badge {
+  position: absolute; top: -6px; right: -8px;
+  background: var(--gold); color: white;
+  font-size: 10px; padding: 2px 6px; border-radius: 50%;
+  min-width: 18px; text-align: center;
+  transition: transform 0.2s;
+}
+.badge.bump { transform: scale(1.4); }
 
-      <!-- Card 0 -->
-      <div class="card-wrap" id="card-0" onclick="openModal(0)" style="cursor:pointer;">
-        <img src="image/s3.jpeg" alt="Red Flower pattern Jutti"
-          data-images='["image/s1.jpeg","image/s3.jpeg","image/s4.jpeg","image/s2.jpeg"]'
-          onerror="this.src='image/display.jpg'">
-        <div class="card-body">
-          <p class="card-name">Red Flower pattern Jutti</p>
-          <p class="card-price">Rs. 1,550</p>
-          <button class="add-btn" onclick="event.stopPropagation(); openModal(0)">View & Add →</button>
-        </div>
-      </div>
+/* ── Cart icon layout ── */
+.cart {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 2px; cursor: pointer;
+}
+.cart-icon-wrap { position: relative; display: flex; align-items: center; }
+.cart-icon-wrap svg { width: 22px; height: 22px; }
 
-      <!-- Card 1 -->
-      <div class="card-wrap" id="card-1" onclick="openModal(1)" style="cursor:pointer;">
-        <img src="image/shoe4.jpeg" alt="Royal Red Khussa"
-          data-images='["image/shoe1.jpeg","image/shoe2.jpeg","image/shoe3.jpeg","image/shoe4.jpeg"]'
-          onerror="this.src='image/display.jpg'">
-        <div class="card-body">
-          <p class="card-name">Royal Red Khussa</p>
-          <p class="card-price">Rs. 1,100</p>
-          <button class="add-btn" onclick="event.stopPropagation(); openModal(1)">View & Add →</button>
-        </div>
-      </div>
+/* Total amount shown below cart icon in navbar */
+.nav-cart-total {
+  font-size: 10px; font-weight: 700; color: var(--muted);
+  letter-spacing: 0.3px; line-height: 1;
+  transition: color 0.3s, transform 0.2s;
+  white-space: nowrap; user-select: none;
+}
+.nav-cart-total.has-items { color: var(--gold-dark); }
+.nav-cart-total.pop {
+  animation: totalPop 0.35s cubic-bezier(.36,.07,.19,.97) both;
+}
 
-      <!-- Card 2 -->
-      <div class="card-wrap" id="card-2" onclick="openModal(2)" style="cursor:pointer;">
-        <img src="image/s1.png" alt="Bridal Kundan Jutti"
-          data-images='["image/s1.png","image/s3.png","image/s4.png","image/s2.png"]'
-          onerror="this.src='image/display.jpg'">
-        <div class="card-body">
-          <p class="card-name">Bridal Kundan Jutti</p>
-          <p class="card-price">Rs. 1,800</p>
-          <button class="add-btn" onclick="event.stopPropagation(); openModal(2)">View & Add →</button>
-        </div>
-      </div>
+/* ── About stats counter ── */
+.stat-counter {
+  display: inline-block;
+  transition: opacity 0.3s;
+}
+.stat-counter.counting {
+  /* subtle colour shift while animating */
+  color: var(--gold-deep);
+}
 
-      <!-- Card 3 -->
-      <div class="card-wrap" id="card-3" onclick="openModal(3)" style="cursor:pointer;">
-        <img src="image/b2.png" alt="Classic Black Jutti"
-          data-images='["image/b1.png","image/b3.png","image/b4.png","image/b2.png"]'
-          onerror="this.src='image/display.jpg'">
-        <div class="card-body">
-          <p class="card-name">Classic Black Jutti</p>
-          <p class="card-price">Rs. 1,550</p>
-          <button class="add-btn" onclick="event.stopPropagation(); openModal(3)">View & Add →</button>
-        </div>
-      </div>
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 3000;
+  /* 44×44px minimum touch target (WCAG / iOS HIG) */
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: background 0.2s;
+}
+.menu-toggle:hover,
+.menu-toggle:focus-visible {
+  background: rgba(200, 169, 126, 0.12);
+  outline: none;
+}
+.menu-toggle span {
+  height: 2px;
+  width: 24px;
+  background: #333;
+  border-radius: 2px;
+  margin: 3.5px 0;
+  transition: transform 0.3s ease, opacity 0.2s ease, width 0.2s ease;
+  display: block;
+  transform-origin: center;
+}
+/* Animated X state */
+.menu-toggle.open span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+.menu-toggle.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.menu-toggle.open span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
 
-    </div>
-  </div>
-</section>
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+.hero {
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center; min-height: calc(100vh - 73px);
+  padding: 0 64px 100px; gap: 32px;
+  position: relative; overflow: hidden;
+  background: var(--cream-3);
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0;
+}
+.hero-content { position: relative; z-index: 1; animation: fadeUp 0.9s ease both; }
 
-<!-- ══════════════════════════════════════
-     PROMO BANNER
-══════════════════════════════════════ -->
-<div class="promo-banner">
-  <div class="promo-inner">
-    <p class="promo-label">Limited Time Offer</p>
-    <h2 class="promo-title">Celebrate Every Occasion<br>in Handcrafted Elegance</h2>
-    <p class="promo-sub">Use code below for 15% off your first order</p>
-    <div class="promo-code">JUTTI15</div><br>
-    <a href="collection.html" class="promo-btn">Shop Collections</a>
-  </div>
-</div>
+.eyebrow {
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 3.5px;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 5px;
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.8rem, 4.5vw, 4.2rem);
+  line-height: 1.08; font-weight: 700; color: var(--text); margin-bottom: 6px;
+}
+.hero-title-accent {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.8rem, 4.5vw, 4.2rem);
+  line-height: 1.15; font-weight: 400; color: var(--accent);
+  font-style: italic; margin-bottom: 28px; display: block;
+}
+.hero-desc {
+  font-size: 0.93rem; line-height: 1.75; color: var(--muted);
+  max-width: 360px; margin-bottom: 44px;
+}
+.cta-btn {
+  display: inline-flex; align-items: center; gap: 14px;
+  background: var(--gold-dark); color: #fff; text-decoration: none;
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 2.5px;
+  text-transform: uppercase; padding: 18px 36px;
+  transition: background 0.25s, gap 0.25s; cursor: pointer; border: none;
+}
+.cta-btn:hover { background: var(--gold-deep); gap: 20px; }
+.cta-arrow {
+  width: 18px; height: 18px; stroke: #fff; stroke-width: 2; fill: none;
+  transition: transform 0.25s;
+}
+.cta-btn:hover .cta-arrow { transform: translateX(4px); }
 
-<!-- ══════════════════════════════════════
-     COLLECTIONS
-══════════════════════════════════════ -->
-<section class="collections section-pad" id="collections">
-  <div class="container">
-    <div class="collections-header">
-      <h2 class="section-title"><span>Our Collections</span></h2>
-      <a href="collection.html" class="view-all">View All →</a>
-    </div>
+.hero-visual {
+  position: static; display: flex;
+  justify-content: flex-end; align-items: center; overflow: visible;
+}
+.circle-bg {
+  position: absolute; right: -120px; bottom: -120px;
+  width: clamp(500px, 55vw, 700px); height: clamp(500px, 55vw, 700px);
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #f3e7d7, #e2d3bd);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; box-shadow: inset 0 10px 40px rgba(0,0,0,0.05);
+}
+.hero-shoe-img {
+  width: 110%; height: 110%; object-fit: cover;
+  object-position: center 25%; transform: translateX(-75px);
+  filter: drop-shadow(0 25px 30px rgba(0,0,0,0.15));
+}
 
-    <div class="collection-grid">
+.trust-bar {
+  position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+  width: 80%; max-width: 950px;
+  background: var(--warm); border: 1px solid var(--border);
+  border-radius: 14px; padding: 5px 0;
+  display: flex; align-items: center;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08); z-index: 10;
+}
+.trust-item {
+  flex: 1; display: flex; align-items: center;
+  gap: 12px; padding: 18px 22px; position: relative;
+}
+.trust-item:not(:last-child)::after {
+  content: ""; position: absolute; right: 0; top: 20%;
+  height: 60%; width: 1px; background: #deccb7;
+}
+.trust-icon { color: #a8793c; flex-shrink: 0; }
+.trust-label { font-size: 0.82rem; font-weight: 600; color: var(--text); line-height: 1.4; }
+.trust-label span { display: block; font-size: 0.72rem; font-weight: 400; color: var(--muted); }
 
-      <!-- Card 4 -->
-      <div class="card-wrap" id="card-4" onclick="openModal(4)" style="cursor:pointer;">
-        <img src="image/b2.png" alt="Classic Black Jutti"
-          data-images='["image/b2.png","image/b4.png","image/b1.png","image/b3.png"]'
-          onerror="this.src='image/display.jpg'">
-        <div class="card-body">
-          <p class="card-name">Classic Black Jutti</p>
-          <p class="card-price">Rs. 1,550</p>
-          <button class="add-btn" onclick="event.stopPropagation(); openModal(4)">View & Add →</button>
-        </div>
-      </div>
+/* ══════════════════════════════════════
+   SECTIONS COMMON
+══════════════════════════════════════ */
+.section-pad { padding: 80px 0; }
+.container { width: 90%; max-width: 1200px; margin: auto; }
 
-      <!-- Card 5 -->
-      <div class="card-wrap" id="card-5" onclick="openModal(5)" style="cursor:pointer;">
-        <img src="image/rbg1.jpg" alt="Red Potli "
-          data-images='["image/rbg1.jpg","image/rbg2.jpg"]'
-          onerror="this.src='image/display.jpg'">
-        <div class="card-body">
-          <p class="card-name">Red Potli</p>
-          <p class="card-price">Rs. 2,599</p>
-          <button class="add-btn" onclick="event.stopPropagation(); openModal(5)">View & Add →</button>
-        </div>
-      </div>
+.section-header {
+  display: flex; justify-content: space-between;
+  align-items: center; margin-bottom: 48px;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem; color: var(--text); font-weight: 500;
+  position: relative; padding-bottom: 18px;
+}
+.section-title::after {
+  content: ""; position: absolute; bottom: 2px; left: 0;
+  width: 60px; height: 2px; background: var(--gold);
+}
+.section-title::before {
+  content: ""; position: absolute; bottom: -1px; left: 68px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--gold);
+}
 
-      <!-- Card 6 -->
-      <div class="card-wrap" id="card-6" onclick="openModal(6)" style="cursor:pointer;">
-        <img src="image/p6-front.jpg" alt="Velvet Zari Jutti"
-          data-images='["image/p6-front.jpg","image/p6-side.jpg","image/p6-back.jpg","image/p6-detail.jpg"]'
-          onerror="this.src='image/display.jpg'">
-        <div class="card-body">
-          <p class="card-name">Velvet Zari Jutti</p>
-          <p class="card-price">Rs. 2,999</p>
-          <button class="add-btn" onclick="event.stopPropagation(); openModal(6)">View & Add →</button>
-        </div>
-      </div>
+.best-header, .collections-header {
+  display: flex; justify-content: space-between;
+  align-items: center; margin-bottom: 48px;
+}
+.best-header h2, .collections-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem; color: var(--text); font-weight: 500;
+  position: relative; padding-bottom: 18px;
+}
+.best-header h2::after, .collections-header h2::after {
+  content: ""; position: absolute; bottom: 2px; left: 0;
+  width: 60px; height: 2px; background: var(--gold);
+}
+.best-header h2::before, .collections-header h2::before {
+  content: ""; position: absolute; bottom: -1px; left: 68px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--gold);
+}
 
-      <!-- Card 7 -->
-      <div class="card-wrap" id="card-7" onclick="openModal(7)" style="cursor:pointer;">
-        <img src="image/p7-front.jpg" alt="Heritage Mojari Pair"
-          data-images='["image/p7-front.jpg","image/p7-side.jpg","image/p7-back.jpg","image/p7-detail.jpg"]'
-          onerror="this.src='image/display.jpg'">
-        <div class="card-body">
-          <p class="card-name">Heritage Mojari Pair</p>
-          <p class="card-price">Rs. 3,199</p>
-          <button class="add-btn" onclick="event.stopPropagation(); openModal(7)">View & Add →</button>
-        </div>
-      </div>
+.view-all {
+  border: 1px solid var(--gold); padding: 9px 18px;
+  text-decoration: none; color: var(--text); font-size: 13px;
+  transition: 0.3s; font-weight: 500; white-space: nowrap;
+}
+.view-all:hover { background: var(--gold); color: #fff; }
 
-    </div>
-  </div>
-</section>
+/* ══════════════════════════════════════
+   BEST SELLING SECTION
+══════════════════════════════════════ */
+.best-selling { padding: 80px 0; background: var(--cream-2); }
 
-<!-- ══════════════════════════════════════
-     WHY CHOOSE US
-══════════════════════════════════════ -->
-<section class="why-us section-pad">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Why Choose Us</h2>
-    </div>
-    <div class="why-grid">
-      <div class="why-card">
-        <div class="why-icon">
-          <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          </svg>
-        </div>
-        <h3>Authentically Handcrafted</h3>
-        <p>Every pair is lovingly crafted by skilled artisans using centuries-old techniques passed down through generations in Punjab.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon">
-          <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
-          </svg>
-        </div>
-        <h3>Premium Leather & Fabrics</h3>
-        <p>We source only the finest genuine leather, silk threads, and traditional embroidery materials to ensure lasting beauty and comfort.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon">
-          <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-          </svg>
-        </div>
-        <h3>Made with Passion</h3>
-        <p>We believe footwear tells your story. Each jutti is an art piece — shaped, stitched and embroidered with care and devotion.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon">
-          <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/>
-            <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
-          </svg>
-        </div>
-        <h3>Fast Nationwide Delivery</h3>
-        <p>We deliver across Pakistan within 3–5 working days. Express delivery available for urgent orders, with real-time tracking.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon">
-          <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-            <polyline points="9 22 9 12 15 12 15 22"/>
-          </svg>
-        </div>
-        <h3>Easy Returns</h3>
-        <p>Not the right fit? Return within 7 days, no questions asked. We offer full exchange or refund on all orders.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon">
-          <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
-        </div>
-        <h3>Custom Orders Welcome</h3>
-        <p>Want a jutti tailored to your design? We accept bespoke orders for weddings, events and gifting. Contact us to discuss.</p>
-      </div>
-    </div>
-  </div>
-</section>
+/* ══════════════════════════════════════
+   PRODUCT CARDS (shared by Best Selling & Collections)
+══════════════════════════════════════ */
+.collection-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+}
 
-<!-- ══════════════════════════════════════
-     TESTIMONIALS
-══════════════════════════════════════ -->
-<section class="testimonials section-pad">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">What Our Customers Say</h2>
-    </div>
-    <div class="testi-grid">
-      <div class="testi-card">
-        <div class="quote-mark">"</div>
-        <div class="stars">★★★★★</div>
-        <p class="testi-text">Absolutely stunning juttis! I wore them to my cousin's wedding and received so many compliments. The embroidery is incredibly detailed and they were comfortable all day long.</p>
-        <div class="testi-author">
-          <div class="author-avatar">A</div>
-          <div>
-            <div class="author-name">Ayusha Pujari</div>
-            <div class="author-loc">Banasthali, Kathmandu</div>
-          </div>
-        </div>
-      </div>
-      <div class="testi-card">
-        <div class="quote-mark">"</div>
-        <div class="stars">★★★★★</div>
-        <p class="testi-text">I ordered a custom pair for my sister's mehndi and JUtti.com exceeded all expectations. The quality and craftsmanship is truly something special. Will order again!</p>
-        <div class="testi-author">
-          <div class="author-avatar">S</div>
-          <div>
-            <div class="author-name">Saru Dongol</div>
-            <div class="author-loc">Dallu, Kathmandu</div>
-          </div>
-        </div>
-      </div>
-      <div class="testi-card">
-        <div class="quote-mark">"</div>
-        <div class="stars">★★★★☆</div>
-        <p class="testi-text">Delivery was quick and the packaging was beautiful. The juttis look even better in person than in the photos. Sizing guide was accurate and helpful.</p>
-        <div class="testi-author">
-          <div class="author-avatar">Z</div>
-          <div>
-            <div class="author-name">Sarita Maharjan </div>
-            <div class="author-loc">Teku, Kathmandu</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+.card-wrap {
+  position: relative; border-radius: 14px; overflow: visible;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-wrap:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.13);
+}
 
-<!-- ══════════════════════════════════════
-     ABOUT US
-══════════════════════════════════════ -->
-<section class="about section-pad" id="about">
-  <div class="container">
-    <div class="about-grid">
-      <div class="about-img-wrap">
-        <div class="about-img-placeholder">
-          <svg width="100" height="100" fill="none" stroke="#c8a97e" stroke-width="1" viewBox="0 0 100 100" opacity="0.5">
-            <ellipse cx="50" cy="65" rx="35" ry="12"/><path d="M20 65 Q30 30 50 25 Q70 30 80 65"/>
-            <path d="M30 60 Q40 35 50 32 Q60 35 70 60"/>
-            <path d="M35 58 Q45 42 50 40 Q55 42 65 58"/>
-          </svg>
-        </div>
-        <div class="about-accent-box">
-          <span class="num">15+</span>
-          <span class="lbl">Years of Craft</span>
-        </div>
-      </div>
-      <div class="about-content">
-        <p class="about-eyebrow">Our Story</p>
-        <h2 class="about-title">Rooted in Tradition,<br>Crafted with Love</h2>
-        <p class="about-desc">JUtti.com was born from a deep love for Pakistan's rich artisan heritage. What started as a small workshop in Lahore's old city has grown into a beloved destination for handcrafted traditional footwear.</p>
-        <p class="about-desc">Every pair of juttis we create is a story — of skilled hands, of threads woven with patience, of leather shaped with precision and pride. We work directly with local craftsmen to ensure fair wages and preserve age-old techniques.</p>
-        <ul class="about-list">
-          <li>100% genuine leather and natural fabrics</li>
-          <li>Hand-stitched by certified artisans</li>
-          <li>Over 200 unique designs in our catalog</li>
-          <li>Custom bridal and event collections available</li>
-          <li>Ethically sourced materials throughout</li>
-        </ul>
-        <div class="about-stats" id="about-stats">
-          <div class="astat">
-            <div class="astat-num stat-counter" data-target="12" data-suffix="k+" data-duration="1800">0k+</div>
-            <div class="astat-lbl">Happy Customers</div>
-          </div>
-          <div class="astat">
-            <div class="astat-num stat-counter" data-target="200" data-suffix="+" data-duration="1600">0+</div>
-            <div class="astat-lbl">Unique Designs</div>
-          </div>
-          <div class="astat">
-            <div class="astat-num stat-counter" data-target="15" data-suffix="+" data-duration="1200">0+</div>
-            <div class="astat-lbl">Expert Artisans</div>
-          </div>
-          <div class="astat">
-            <div class="astat-num stat-counter" data-target="4.9" data-suffix="★" data-decimal="1" data-duration="1400">0.0★</div>
-            <div class="astat-lbl">Average Rating</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+/* clip overflow only on the image so overlay is not clipped */
+.card-wrap > img {
+  width: 100%; height: 220px; object-fit: cover;
+  display: block;
+  border-radius: 14px 14px 0 0;
+}
 
-<!-- ══════════════════════════════════════
-     CONTACT
-══════════════════════════════════════ -->
-<section class="contact section-pad" id="contact">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">Get in Touch</h2>
-    </div>
-    <div class="contact-grid">
-      <div class="contact-info">
-        <h3>We'd Love to Hear From You</h3>
-        <p>Whether you have a question about sizing, want to place a custom order, or simply want to know more about our craftsmanship — our team is always happy to help.</p>
-        <ul class="contact-details">
-          <li>
-            <span class="contact-icon">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-              </svg>
-            </span>
-            <span>P853+HV Kathmandur<br>Bhurungkhel Marg, Kathmandu 44600</span>
-          </li>
-          <li>
-            <span class="contact-icon">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
-              </svg>
-            </span>
-            <span>+9779713138243</span>
-          </li>
-          <li>
-            <span class="contact-icon">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
-              </svg>
-            </span>
-            <span>hello@jutti.com</span>
-          </li>
-          <li>
-            <span class="contact-icon">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-              </svg>
-            </span>
-            <span>Sun–Sat: 09:30 AM – 8:30 PM</span>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <div class="contact-form">
-          <div class="form-row">
-            <div class="form-field">
-              <label>Your Name</label>
-              <input type="text" placeholder="e.g. Sumita Maharjan ">
-            </div>
-            <div class="form-field">
-              <label>Phone / WhatsApp</label>
-              <input type="tel" placeholder="+977 300 000 0000">
-            </div>
-          </div>
-          <div class="form-field">
-            <label>Email Address</label>
-            <input type="email" placeholder="you@example.com">
-          </div>
-          <div class="form-field">
-            <label>Subject</label>
-            <select>
-              <option>General Enquiry</option>
-              <option>Custom Order</option>
-              <option>Order Tracking</option>
-              <option>Return / Exchange</option>
-              <option>Sizing Help</option>
-              <option>Wholesale</option>
-            </select>
-          </div>
-          <div class="form-field">
-            <label>Message</label>
-            <textarea placeholder="Tell us how we can help you…"></textarea>
-          </div>
-          <button class="submit-btn" onclick="submitForm()">Send Message →</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+.card-body {
+  background: #fff; padding: 12px 14px 14px;
+  border-radius: 0 0 14px 14px;
+}
+.card-name { font-size: 13.5px; font-weight: 600; color: var(--text); margin: 0 0 2px; }
+.card-price { font-size: 13px; color: var(--accent); font-weight: 600; margin: 0 0 10px; }
 
-<!-- ══════════════════════════════════════
-     MAP
-══════════════════════════════════════ -->
-<div class="map-section">
-  <div class="map-container">
-    <div class="map-wrap">
-      <div class="map-inner">
-        <div class="map-streets"></div>
-        <div class="map-road-h" style="top:30%"></div>
-        <div class="map-road-h" style="top:55%"></div>
-        <div class="map-road-h" style="top:75%"></div>
-        <div class="map-road-v" style="left:25%"></div>
-        <div class="map-road-v" style="left:50%"></div>
-        <div class="map-road-v" style="left:72%"></div>
-        <div class="map-pin">
-          <div class="map-pin-pulse"></div>
-          <div class="map-pin-circle"></div>
-        </div>
-        <div class="map-overlay-card">
-          <h4>JUttiDot com Store</h4>
-          <p>P853+HV Kathmandur<br>Bhurungkhel Marg, Kathmandu 44600</p>
-        </div>
-        <a class="map-open-btn" href="https://maps.app.goo.gl/Np6ssdfTZ5RnaYkW6 " target="_blank">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-          </svg>
-          Open in Maps
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
+.add-btn {
+  width: 100%; padding: 9px 0;
+  background: var(--gold-dark); color: #fff;
+  border: none; border-radius: 7px; font-size: 11.5px; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer;
+  transition: background 0.2s;
+}
+.add-btn:hover { background: var(--gold-deep); }
 
-<!-- ══════════════════════════════════════
-     FOOTER
-══════════════════════════════════════ -->
-<footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a class="logo-text" href="#hero" style="color:#fff;">JUTTI<span style="color:var(--gold)">.</span></a>
-        <p>Handcrafted juttis rooted in tradition, made for every occasion. Bringing the artisan craftsmanship of Lahore to your doorstep since 2009.</p>
-        <div class="social-row">
-          <a class="social-btn fb" href="#" title="Facebook">
-            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-          </a>
-          <a class="social-btn insta" href="#" title="Instagram">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-            </svg>
-          </a>
-          <a class="social-btn wa" href="#" title="WhatsApp">
-            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
-          </a>
-        </div>
-      </div>
+/* ── SIZE OVERLAY ── */
+.size-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 14px 14px;
+  transform: translateY(calc(100% + 8px));
+  transition: transform 0.32s cubic-bezier(.4,0,.2,1), opacity 0.25s;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 50;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.14);
+}
+.size-overlay.open {
+  transform: translateY(calc(100% + 8px));
+  opacity: 1;
+  pointer-events: all;
+}
 
-      <div class="footer-col">
-        <h4>Quick Links</h4>
-        <ul class="footer-links">
-          <li><a href="#hero">Home</a></li>
-          <li><a href="#best-selling">Best Selling</a></li>
-          <li><a href="#collections">Collections</a></li>
-          <li><a href="#about">About Us</a></li>
-          <li><a href="#contact">Contact Us</a></li>
-          <li><a href="#">Size Guide</a></li>
-          <li><a href="#">Track Order</a></li>
-        </ul>
-      </div>
+/* On cards near bottom, open upward instead */
+.card-wrap.open-up .size-overlay.open {
+  transform: translateY(calc(-100% - 8px));
+}
 
-      <div class="footer-col">
-        <h4>Store Hours</h4>
-        <ul class="footer-hours">
-          <li><span class="day">Monday</span><span>9.30am – 8.30pm</span></li>
-          <li><span class="day">Tuesday</span><span>9.30am – 8.30pm</span></li>
-          <li><span class="day">Wednesday</span><span>9.30am – 8.30pm</span></li>
-          <li><span class="day">Thursday</span><span>9.30am – 8.30pm</span></li>
-          <li><span class="day">Friday</span><span>9.30am – 8.30pm</span></li>
-          <li><span class="day">Saturday</span><span>9.30am – 8.30pm</span></li>
-          <li><span class="day">Sunday</span><span>9.30am – 8.30pm</span></li>
-        </ul>
-      </div>
+/* Sliding upward from inside the card (alternative layout) */
+.size-overlay.open {
+  transform: translateY(0);
+}
 
-      <div class="footer-col">
-        <h4>Newsletter</h4>
-        <p style="font-size:0.84rem;color:rgba(255,255,255,0.45);line-height:1.7;margin-bottom:12px;">
-          Get exclusive deals, new arrivals and style tips delivered to your inbox.
-        </p>
-        <div class="newsletter-form">
-          <input type="email" placeholder="Your email address" id="newsletter-email">
-          <button onclick="subscribeNewsletter()">→</button>
-        </div>
-        <p style="font-size:0.75rem;color:rgba(255,255,255,0.3);margin-top:10px;">No spam, unsubscribe any time.</p>
-        <h4 style="margin-top:24px;">Help & Policies</h4>
-        <ul class="footer-links">
-          <li><a href="#">Shipping Policy</a></li>
-          <li><a href="#">Return & Exchange</a></li>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms & Conditions</a></li>
-          <li><a href="#">FAQs</a></li>
-        </ul>
-      </div>
-    </div>
+.size-label {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: #999; margin: 0 0 8px;
+}
 
-    <div class="footer-bottom">
-      <span>© 2025 JUtti.com · All rights reserved · Made with ♥ in Lahore</span>
-      <div class="footer-payments">
-        <span style="font-size:0.75rem;color:rgba(255,255,255,0.3);margin-right:6px;">We accept:</span>
-        <span class="pay-badge">JazzCash</span>
-        <span class="pay-badge">EasyPaisa</span>
-        <span class="pay-badge">COD</span>
-        <span class="pay-badge">Bank Transfer</span>
-      </div>
-    </div>
-  </div>
-</footer>
+.sizes { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
 
+.sz {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1.5px solid #d9cdb7; border-radius: 6px;
+  font-size: 12px; font-weight: 500; color: var(--text);
+  cursor: pointer; transition: all 0.15s; background: var(--cream);
+  user-select: none;
+}
+.sz:hover:not(.unavailable) {
+  border-color: var(--gold-dark); color: var(--gold-dark);
+  background: #fff8f0;
+}
+.sz.selected {
+  border-color: var(--gold-dark);
+  background: var(--gold-dark); color: #fff;
+}
+.sz.unavailable {
+  opacity: 0.3; cursor: not-allowed;
+  text-decoration: line-through;
+  pointer-events: none;
+}
 
-<!-- ══════════════════════════════════════
-     PRODUCT DETAIL MODAL
-══════════════════════════════════════ -->
-<div class="modal-backdrop" id="modal-backdrop" onclick="handleBackdropClick(event)">
-  <div class="modal" id="modal">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <div class="modal-top">
-      <div class="modal-gallery">
-        <div class="gallery-thumbs" id="gallery-thumbs"></div>
-        <div class="gallery-main">
-          <img id="gallery-main-img" src="" alt="Product">
-          <button class="gallery-arrow prev" onclick="galleryNav(-1)">‹</button>
-          <button class="gallery-arrow next" onclick="galleryNav(1)">›</button>
-          <div class="gallery-dots" id="gallery-dots"></div>
-        </div>
-      </div>
-      <div class="modal-info" id="modal-info">
-        <p class="modal-category-tag" id="m-cat"></p>
-        <h2 class="modal-name" id="m-name"></h2>
-        <div class="modal-rating">
-          <span class="stars" id="m-stars"></span>
-          <span class="rating-count" id="m-rating"></span>
-          <span class="sold" id="m-sold"></span>
-        </div>
-        <div class="price-row">
-          <span class="modal-price" id="m-price"></span>
-          <span class="modal-price-old" id="m-price-old"></span>
-          <span class="modal-discount" id="m-discount"></span>
-        </div>
-        <p class="modal-desc" id="m-desc"></p>
-        <p class="section-label" id="size-label-el">Select Size (EU)</p>
-        <div class="sizes-grid" id="m-sizes"></div>
-        <div class="modal-actions">
-          <button class="btn-add-cart" id="m-add-btn" onclick="modalAddToCart()" disabled>
-            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-              <line x1="3" y1="6" x2="21" y2="6"/>
-              <path d="M16 10a4 4 0 0 1-8 0"/>
-            </svg>
-            Add to Cart
-          </button>
-          <button class="btn-checkout" onclick="modalCheckout()">Buy Now</button>
-        </div>
-        <div class="modal-perks">
-          <div class="perk">
-            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            Free delivery on all orders
-          </div>
-          <div class="perk">
-            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            100% genuine handcrafted leather
-          </div>
-          <div class="perk">
-            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-            Easy 7-day returns
-          </div>
-          <div class="perk">
-            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-            COD · JazzCash · EasyPaisa
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal-recs">
-      <p class="recs-title">You May Also Like</p>
-      <div class="recs-strip" id="recs-strip"></div>
-    </div>
-  </div>
-</div>
+.overlay-actions { display: flex; gap: 8px; }
 
-<div id="toast"></div>
+.confirm-btn {
+  flex: 1; padding: 9px 0;
+  background: var(--gold-dark); color: #fff; border: none;
+  border-radius: 7px; font-size: 12px; font-weight: 600;
+  letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+  transition: background 0.2s;
+}
+.confirm-btn:hover:not(:disabled) { background: var(--gold-deep); }
+.confirm-btn:disabled {
+  background: #c8b89a; cursor: not-allowed; opacity: 0.7;
+}
 
-<script src="js/script.js"></script>
+.cancel-btn {
+  padding: 9px 12px;
+  border: 1.5px solid #d9cdb7;
+  background: transparent; border-radius: 7px;
+  font-size: 12px; color: #999; cursor: pointer;
+  transition: all 0.15s;
+}
+.cancel-btn:hover { border-color: var(--gold-dark); color: var(--gold-dark); }
 
-</body>
-</html>
+/* ══════════════════════════════════════
+   COLLECTIONS SECTION
+══════════════════════════════════════ */
+.collections { padding: 80px 0; background: var(--cream-3); }
+
+/* ══════════════════════════════════════
+   PROMO BANNER
+══════════════════════════════════════ */
+.promo-banner {
+  background: linear-gradient(135deg, #3d2510 0%, #5c3618 50%, #3d2510 100%);
+  padding: 56px 20px; text-align: center;
+  position: relative; overflow: hidden;
+}
+.promo-banner::before {
+  content: ""; position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8a97e' fill-opacity='0.06'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.promo-inner { position: relative; z-index: 1; max-width: 600px; margin: auto; }
+.promo-label {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 12px;
+}
+.promo-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  color: #fff; font-weight: 400; margin-bottom: 10px;
+}
+.promo-sub { color: rgba(255,255,255,0.65); font-size: 0.9rem; margin-bottom: 28px; }
+.promo-code {
+  display: inline-block; background: rgba(200,169,126,0.15);
+  border: 1.5px dashed var(--gold); color: var(--gold);
+  padding: 10px 28px; font-size: 1.1rem; font-weight: 700;
+  letter-spacing: 4px; border-radius: 4px; margin-bottom: 24px;
+}
+.promo-btn {
+  display: inline-block; background: var(--gold); color: var(--text);
+  text-decoration: none; padding: 14px 36px;
+  font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; transition: 0.3s;
+}
+.promo-btn:hover { background: var(--gold-deep); color: #fff; }
+
+/* ══════════════════════════════════════
+   WHY CHOOSE US
+══════════════════════════════════════ */
+.why-us { padding: 80px 0; background: var(--cream-2); }
+.why-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 32px; margin-top: 10px; }
+.why-card {
+  background: var(--warm); border: 1px solid var(--border);
+  border-radius: 16px; padding: 36px 28px; text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.why-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.07); }
+.why-icon {
+  width: 60px; height: 60px; background: rgba(200,169,126,0.15);
+  border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; margin: 0 auto 20px; color: var(--accent);
+}
+.why-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 10px; color: var(--text); }
+.why-card p { font-size: 0.87rem; color: var(--muted); line-height: 1.7; }
+
+/* ══════════════════════════════════════
+   TESTIMONIALS
+══════════════════════════════════════ */
+.testimonials { padding: 80px 0; background: var(--cream-3); }
+.testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+.testi-card {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: 14px; padding: 28px; position: relative;
+}
+.stars { color: var(--gold); font-size: 14px; margin-bottom: 12px; }
+.testi-text {
+  font-size: 0.87rem; color: var(--muted); line-height: 1.75;
+  margin-bottom: 18px; font-style: italic;
+}
+.testi-author { display: flex; align-items: center; gap: 12px; }
+.author-avatar {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 700; font-size: 15px;
+}
+.author-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.author-loc { font-size: 11px; color: var(--muted); }
+.quote-mark {
+  position: absolute; top: 18px; right: 22px;
+  font-family: 'Playfair Display', serif;
+  font-size: 60px; color: rgba(200,169,126,0.18);
+  line-height: 1; font-weight: 700;
+}
+
+/* ══════════════════════════════════════
+   ABOUT
+══════════════════════════════════════ */
+.about { padding: 90px 0; background: var(--cream-2); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+.about-img-wrap { position: relative; }
+.about-img-placeholder {
+  width: 100%; aspect-ratio: 4/3; border-radius: 18px;
+  background: linear-gradient(135deg, #e8d9c4, #d4c4a8);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.about-accent-box {
+  position: absolute; bottom: -24px; left: -24px;
+  background: var(--gold-dark); color: #fff;
+  padding: 24px 28px; border-radius: 12px;
+  font-family: 'Playfair Display', serif;
+}
+.about-accent-box .num { font-size: 2.2rem; font-weight: 700; display: block; }
+.about-accent-box .lbl { font-size: 0.78rem; opacity: 0.85; letter-spacing: 1px; }
+
+.about-eyebrow {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 3.5px;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+}
+.about-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+  color: var(--text); font-weight: 500; line-height: 1.3; margin-bottom: 20px;
+}
+.about-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.85; margin-bottom: 18px; }
+.about-list { list-style: none; margin-bottom: 32px; }
+.about-list li {
+  font-size: 0.88rem; color: var(--muted); padding: 8px 0;
+  border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px;
+}
+.about-list li::before { content: "✦"; color: var(--gold); font-size: 10px; }
+.about-stats { display: flex; gap: 32px; margin-top: 28px; }
+.astat { text-align: center; }
+.astat-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--gold-dark); }
+.astat-lbl { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+/* ══════════════════════════════════════
+   CONTACT
+══════════════════════════════════════ */
+.contact { padding: 80px 0; background: var(--cream-3); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+.contact-info h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 16px; color: var(--text); }
+.contact-info p { font-size: 0.9rem; color: var(--muted); line-height: 1.75; margin-bottom: 28px; }
+.contact-details { list-style: none; }
+.contact-details li {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 14px 0; border-bottom: 1px solid var(--border);
+  font-size: 0.88rem; color: var(--muted);
+}
+.contact-icon { color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+.contact-form { display: flex; flex-direction: column; gap: 16px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-field { display: flex; flex-direction: column; gap: 6px; }
+.form-field label {
+  font-size: 11.5px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--muted);
+}
+.form-field input, .form-field textarea, .form-field select {
+  padding: 12px 16px; border: 1.5px solid var(--border);
+  border-radius: 8px; background: var(--warm);
+  font-family: 'Nunito', sans-serif; font-size: 0.88rem; color: var(--text);
+  outline: none; transition: border-color 0.2s;
+}
+.form-field input:focus, .form-field textarea:focus, .form-field select:focus { border-color: var(--gold); }
+.form-field textarea { resize: vertical; min-height: 110px; }
+.submit-btn {
+  padding: 14px; background: var(--gold-dark); color: #fff;
+  border: none; border-radius: 8px; font-size: 0.78rem;
+  font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; transition: background 0.2s;
+}
+.submit-btn:hover { background: var(--gold-deep); }
+
+/* ══════════════════════════════════════
+   MAP
+══════════════════════════════════════ */
+.map-section { background: var(--cream-2); padding: 0 0 60px; }
+.map-container { width: 90%; max-width: 1200px; margin: auto; }
+.map-wrap {
+  border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+.map-inner {
+  width: 100%; height: 320px;
+  background: linear-gradient(135deg, #e8d5b8, #d4bfa0);
+  position: relative; display: flex; align-items: center; justify-content: center;
+}
+.map-pin {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -80%);
+}
+.map-pin-circle {
+  width: 20px; height: 20px; background: var(--gold-dark);
+  border-radius: 50% 50% 50% 0; transform: rotate(-45deg);
+  border: 3px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+.map-pin-pulse {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(169,121,59,0.25);
+  animation: pulse 2s ease infinite;
+}
+.map-overlay-card {
+  position: absolute; bottom: 20px; left: 20px;
+  background: #fff; border-radius: 10px; padding: 14px 18px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  border-left: 3px solid var(--gold-dark);
+  max-width: 220px;
+}
+.map-overlay-card h4 { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.map-overlay-card p { font-size: 11.5px; color: var(--muted); margin: 0; line-height: 1.5; }
+.map-streets {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.map-road-h {
+  position: absolute; left: 0; right: 0;
+  height: 14px; background: rgba(255,255,255,0.55);
+}
+.map-road-v {
+  position: absolute; top: 0; bottom: 0;
+  width: 14px; background: rgba(255,255,255,0.55);
+}
+.map-open-btn {
+  position: absolute; top: 14px; right: 14px;
+  background: #fff; border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 14px;
+  font-size: 12px; font-weight: 600; color: var(--text);
+  cursor: pointer; text-decoration: none;
+  display: flex; align-items: center; gap: 6px;
+  transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.map-open-btn:hover { background: var(--cream); border-color: var(--gold); }
+
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+footer {
+  background: #1e120a; color: rgba(255,255,255,0.75); padding: 64px 0 0;
+}
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px; padding-bottom: 48px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.footer-brand .logo-text { font-size: 1.5rem; }
+.footer-brand p {
+  font-size: 0.86rem; line-height: 1.8;
+  color: rgba(255,255,255,0.5); margin: 16px 0 24px; max-width: 280px;
+}
+.social-row { display: flex; gap: 10px; }
+.social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: #fff;
+  background: #222;
+  transition: all 0.4s ease;
+}
+
+/* =========================
+   🔵 FACEBOOK GLOW EFFECT
+========================= */
+.social-btn.fb:hover {
+  background: #1877f2;
+
+ 
+}
+.social-btn.wa:hover {
+  background: #25D366;
+}
+
+/* =========================
+   🌈 INSTAGRAM GRADIENT FLOW
+========================= */
+.social-btn.insta {
+  position: relative;
+  overflow: hidden;
+}
+
+.social-btn.insta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    45deg,
+    #feda75,
+    #fa7e1e,
+    #d62976,
+    #962fbf,
+    #4f5bd5
+  );
+  background-size: 300% 300%;
+  opacity: 0;
+  transition: 0.4s;
+  z-index: 0;
+}
+
+.social-btn.insta:hover::before {
+  opacity: 1;
+  animation: instaFlow 3s linear infinite;
+}
+
+.social-btn.insta svg {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes instaFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+.footer-col h4 {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
+}
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 11px; }
+.footer-links a {
+  text-decoration: none; color: rgba(255,255,255,0.55);
+  font-size: 0.86rem; transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--gold); }
+
+.footer-hours { list-style: none; }
+.footer-hours li {
+  display: flex; justify-content: space-between;
+  font-size: 0.83rem; padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.55);
+}
+.footer-hours .day { color: rgba(255,255,255,0.8); }
+
+.newsletter-form { display: flex; margin-top: 14px; }
+.newsletter-form input {
+  flex: 1; padding: 10px 14px;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+  color: #fff; border-radius: 6px 0 0 6px; outline: none;
+  font-family: 'Nunito', sans-serif; font-size: 13px;
+}
+.newsletter-form input::placeholder { color: rgba(255,255,255,0.3); }
+.newsletter-form button {
+  background: var(--gold-dark); color: #fff; border: none;
+  padding: 10px 16px; border-radius: 0 6px 6px 0;
+  font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.2s;
+}
+.newsletter-form button:hover { background: var(--gold-deep); }
+
+.footer-bottom {
+  padding: 20px 0; display: flex;
+  justify-content: space-between; align-items: center;
+  font-size: 0.8rem; color: rgba(255,255,255,0.35);
+}
+.footer-payments { display: flex; gap: 8px; align-items: center; }
+.pay-badge {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px; padding: 4px 10px; font-size: 11px;
+  color: rgba(255,255,255,0.5); font-weight: 600;
+}
+
+/* ══════════════════════════════════════
+   CART DRAWER
+══════════════════════════════════════ */
+.cart-backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.35); z-index: 1100;
+  backdrop-filter: blur(2px);
+}
+.cart-backdrop.open { display: block; }
+
+.cart-drawer {
+  position: fixed; top: 0; right: 0;
+  width: 380px; max-width: 95vw; height: 100%;
+  background: var(--cream); z-index: 1200;
+  display: flex; flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.38s cubic-bezier(.4,0,.2,1);
+  box-shadow: -8px 0 40px rgba(0,0,0,0.12);
+}
+.cart-drawer.open { transform: translateX(0); }
+
+.cart-drawer-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 22px 24px 18px; border-bottom: 1px solid var(--border);
+}
+.cart-drawer-header h3 {
+  font-family: 'Playfair Display', serif; font-size: 20px;
+  font-weight: 500; color: var(--text); margin: 0;
+}
+.cart-close {
+  background: none; border: none; font-size: 18px; color: #888;
+  cursor: pointer; padding: 4px 8px; border-radius: 6px; transition: 0.2s;
+}
+.cart-close:hover { background: #f0e8df; color: var(--text); }
+
+.cart-items { flex: 1; overflow-y: auto; padding: 16px 24px; }
+.cart-empty {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; height: 200px; gap: 14px; color: var(--accent);
+}
+.cart-empty p { font-size: 14px; color: #999; margin: 0; }
+
+.cart-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 0; border-bottom: 1px solid #ede4d8; gap: 12px;
+}
+.ci-info { flex: 1; }
+.ci-name { font-size: 13px; font-weight: 600; color: var(--text); margin: 0 0 3px; }
+.ci-meta { font-size: 12px; color: var(--accent); margin: 0; }
+.ci-controls { display: flex; align-items: center; gap: 6px; }
+
+.qty-btn {
+  width: 26px; height: 26px; border: 1.5px solid #d9cdb7;
+  background: #fff; border-radius: 6px; font-size: 15px; font-weight: 600;
+  color: var(--text); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: 0.15s;
+}
+.qty-btn:hover { border-color: var(--gold-dark); color: var(--gold-dark); }
+.qty-num { font-size: 13px; font-weight: 600; color: var(--text); min-width: 18px; text-align: center; }
+
+.ci-remove {
+  background: none; border: none; color: #bbb; font-size: 13px;
+  cursor: pointer; padding: 4px; border-radius: 4px; transition: 0.15s;
+}
+.ci-remove:hover { color: #c0392b; }
+
+.cart-footer { padding: 18px 24px 28px; border-top: 1px solid var(--border); }
+.cart-total {
+  display: flex; justify-content: space-between;
+  font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 16px;
+}
+.checkout-btn {
+  width: 100%; padding: 14px 0; background: var(--gold-dark); color: #fff;
+  border: none; border-radius: 8px; font-size: 13px; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer;
+  transition: background 0.2s; margin-bottom: 10px;
+}
+.checkout-btn:hover { background: var(--gold-deep); }
+.continue-btn {
+  width: 100%; padding: 11px 0; background: transparent; color: #999;
+  border: 1.5px solid #d9cdb7; border-radius: 8px; font-size: 12px;
+  cursor: pointer; transition: 0.2s;
+}
+.continue-btn:hover { border-color: var(--gold-dark); color: var(--gold-dark); }
+
+/* ══════════════════════════════════════
+   TOAST
+══════════════════════════════════════ */
+#cart-toast {
+  position: fixed; bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #2b1d14; color: #f7e8d3; padding: 12px 24px;
+  border-radius: 30px; font-size: 13px; font-weight: 500;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s, transform 0.3s; z-index: 9999;
+  white-space: nowrap;
+}
+#cart-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ══════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes totalPop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.25) translateY(-2px); }
+  70%  { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+@keyframes statReveal {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes pulse {
+  0%,100% { transform: translate(-50%,-50%) scale(1); opacity: .6; }
+  50%      { transform: translate(-50%,-50%) scale(1.6); opacity: 0; }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media (max-width: 900px) {
+  .menu-toggle { display: flex; margin-left: 4px; }
+  .nav-right { gap: 12px; }
+  .nav-center {
+    position: absolute;
+    top: 73px; left: 0;
+    width: 100%;
+    background: #fff;
+    flex-direction: column;
+    align-items: center;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, box-shadow 0.3s;
+    box-shadow: none;
+    z-index: 1999;
+  }
+  .nav-center a {
+    margin: 13px 0;
+    font-size: 0.95rem;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  .nav-center.active {
+    max-height: 400px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    padding-bottom: 8px;
+  }
+  .nav-center.active a {
+    opacity: 1;
+    transform: none;
+  }
+  .hero { grid-template-columns: 1fr; padding: 40px 24px 120px; text-align: center; }
+  .hero-desc { max-width: 100%; margin-left: auto; margin-right: auto; }
+  .hero-visual { display: none; }
+  .trust-bar {
+    position: relative; bottom: auto; left: auto; transform: none;
+    width: 100%; flex-wrap: wrap; border-radius: 10px; margin-top: 40px;
+  }
+  .trust-item { min-width: 50%; }
+  .about-grid, .contact-grid { grid-template-columns: 1fr; }
+  .about-accent-box { display: none; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .why-grid, .testi-grid { grid-template-columns: 1fr; }
+  .best-header, .collections-header { flex-direction: column; align-items: flex-start; gap: 14px; }
+}
+@media (max-width: 992px) {
+  .collection-grid { grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 576px) {
+  .collection-grid { grid-template-columns: 1fr; }
+  .section-header { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .best-header, .collections-header { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+}
+
+/* ════════════════════════════════════
+   SEARCH — CROSS-PAGE RESULT STYLES
+════════════════════════════════════ */
+.search-result-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 16px; cursor: pointer;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  transition: background 0.18s; border-radius: 8px;
+}
+.search-result-item:hover { background: rgba(200,169,126,0.18); }
+.search-result-collection { opacity: 0.85; }
+.sri-left { display: flex; flex-direction: column; gap: 3px; }
+.sri-name { color: #fff; font-weight: 600; font-size: 0.9rem; }
+.sri-price { color: #c8a97e; font-weight: 700; font-size: 0.88rem; white-space: nowrap; }
+.sri-badge {
+  font-size: 0.68rem; padding: 2px 8px; border-radius: 10px;
+  font-weight: 700; width: fit-content;
+}
+.sri-badge-index      { background: rgba(56,142,60,0.3);    color: #81c784; }
+.sri-badge-collection { background: rgba(200,169,126,0.25); color: #c8a97e; }
+.search-redirect-banner {
+  padding: 10px 16px; background: rgba(200,169,126,0.15);
+  border-bottom: 1px solid rgba(200,169,126,0.2);
+  font-size: 0.82rem; color: rgba(255,255,255,0.65); text-align: center;
+}
+.search-redirect-banner a { color: #c8a97e; font-weight: 700; text-decoration: none; }
+.search-redirect-banner a:hover { text-decoration: underline; }
+.search-no-result {
+  padding: 20px 16px; text-align: center;
+  color: rgba(255,255,255,0.5); font-size: 0.88rem;
+}
+.search-redirect-link {
+  display: inline-block; margin-top: 8px;
+  color: #c8a97e; font-weight: 700; text-decoration: none;
+}
+.search-redirect-link:hover { text-decoration: underline; }    /* ════════════════════════════════════
+       PRODUCT DETAIL MODAL (Daraz-style)
+    ════════════════════════════════════ */
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(20,10,4,0.72);
+      z-index: 2000; display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+      backdrop-filter: blur(4px);
+    }
+    .modal-backdrop.open { opacity: 1; pointer-events: all; }
+
+    .modal {
+      background: #fff; border-radius: 24px;
+      width: 100%; max-width: 980px;
+      max-height: 92vh; overflow-y: auto;
+      transform: scale(0.94) translateY(16px);
+      transition: transform 0.3s;
+      position: relative;
+    }
+    .modal::-webkit-scrollbar { width: 5px; }
+    .modal::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; }
+    .modal-backdrop.open .modal { transform: scale(1) translateY(0); }
+
+    .modal-close {
+      position: absolute; top: 16px; right: 16px; z-index: 10;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(43,29,20,0.08); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: var(--muted);
+      transition: background 0.2s, color 0.2s;
+    }
+    .modal-close:hover { background: var(--text); color: #fff; }
+
+    /* ── Modal top: image + info ── */
+    .modal-top {
+      display: grid; grid-template-columns: 58% 42%;
+      gap: 0; min-height: 480px;
+    }
+
+    /* Image gallery side */
+    .modal-gallery {
+      background: var(--cream-2, #f7f2ec);
+      border-radius: 24px 0 0 0;
+      padding: 20px; display: flex; gap: 12px;
+    }
+    .gallery-thumbs {
+      display: flex; flex-direction: column; gap: 8px; flex-shrink: 0;
+    }
+    .g-thumb {
+      width: 64px; height: 64px; border-radius: 10px;
+      overflow: hidden; cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.2s, transform 0.15s;
+      background: #fff;
+      flex-shrink: 0;
+    }
+    .g-thumb:hover { transform: scale(1.06); }
+    .g-thumb.active { border-color: var(--gold-dark); }
+    .g-thumb img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
+    .g-thumb-label {
+      font-size: 0.6rem; text-align: center; color: var(--muted);
+      font-weight: 700; letter-spacing: 0.4px;
+      padding-top: 2px; line-height: 1.2;
+    }
+    .g-thumb-wrap { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+
+    .gallery-main {
+      flex: 1; position: relative; border-radius: 14px; overflow: hidden;
+      background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      /* height auto-adjusts via JS-set aspect-ratio */
+      min-height: 280px;
+    }
+    .gallery-main img {
+      width: 100%; height: 100%; object-fit: contain;
+      transition: opacity 0.25s, transform 0.35s;
+    }
+    /* landscape images get a wider shorter box */
+    .gallery-main.is-landscape {
+      aspect-ratio: 4 / 3;
+    }
+    /* portrait images get a taller narrower box */
+    .gallery-main.is-portrait {
+      aspect-ratio: 3 / 4;
+    }
+    /* square fallback */
+    .gallery-main.is-square {
+      aspect-ratio: 1 / 1;
+    }
+    .gallery-main img.switching { opacity: 0; transform: scale(0.97); }
+
+    /* Image zoom on modal open */
+    .gallery-main {
+      cursor: zoom-in;
+    }
+    .gallery-main.zoomed {
+      cursor: zoom-out;
+      overflow: visible;
+      z-index: 5;
+    }
+    .gallery-main.zoomed img {
+      transform: scale(1.85);
+      transform-origin: var(--zoom-x, 50%) var(--zoom-y, 50%);
+      transition: transform 0.2s ease;
+    }
+    .zoom-hint {
+      position: absolute; bottom: 40px; right: 10px;
+      background: rgba(43,29,20,0.72); color: #fff;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.5px;
+      padding: 5px 10px; border-radius: 20px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .gallery-main:hover .zoom-hint { opacity: 1; }
+
+    /* Nav arrows on main image */
+    .gallery-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(255,255,255,0.9); border: 1px solid var(--border);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: var(--text); transition: 0.2s; z-index: 2;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .gallery-arrow:hover { background: var(--gold-dark); color: #fff; border-color: var(--gold-dark); }
+    .gallery-arrow.prev { left: 10px; }
+    .gallery-arrow.next { right: 10px; }
+
+    /* Angle indicator dots */
+    .gallery-dots {
+      position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 5px;
+    }
+    .g-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(43,29,20,0.2); cursor: pointer; transition: background 0.2s, width 0.2s;
+    }
+    .g-dot.active { background: var(--gold-dark); width: 18px; border-radius: 3px; }
+
+    /* Info side */
+    .modal-info {
+      padding: 28px 30px 28px 24px;
+      display: flex; flex-direction: column; gap: 0;
+      border-left: 1px solid var(--border);
+      overflow-y: auto; max-height: 560px;
+    }
+    .modal-info::-webkit-scrollbar { width: 3px; }
+    .modal-info::-webkit-scrollbar-thumb { background: var(--border); }
+
+    .modal-category-tag {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .modal-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem; font-weight: 700; line-height: 1.25;
+      margin-bottom: 10px;
+    }
+    .modal-rating { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+    .modal-rating .stars { font-size: 0.9rem; }
+    .modal-rating .rating-count { font-size: 0.8rem; color: var(--muted); }
+    .modal-rating .sold { font-size: 0.8rem; color: var(--muted); }
+    .modal-rating .sold span { color: var(--gold-dark); font-weight: 700; }
+
+    .price-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 14px; }
+    .modal-price { font-size: 1.7rem; font-weight: 800; color: var(--gold-dark); }
+    .modal-price-old { font-size: 1rem; color: var(--muted); text-decoration: line-through; }
+    .modal-discount { font-size: 0.8rem; background: #ffebee; color: #c62828; padding: 2px 8px; border-radius: 6px; font-weight: 700; }
+
+    .modal-desc {
+      font-size: 0.875rem; color: var(--muted); line-height: 1.7;
+      margin-bottom: 18px;
+      padding-bottom: 18px; border-bottom: 1px solid var(--border);
+    }
+
+    .section-label {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--text); margin-bottom: 10px;
+    }
+    .sizes-grid {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px;
+      padding-bottom: 18px; border-bottom: 1px solid var(--border);
+    }
+    .sz-btn {
+      width: 46px; height: 46px; border-radius: 10px;
+      border: 1.5px solid var(--border);
+      background: var(--cream); font-size: 0.85rem; font-weight: 700;
+      color: var(--text); cursor: pointer; transition: 0.18s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sz-btn:hover:not(.sz-unavail) { border-color: var(--gold); background: #fff; }
+    .sz-btn.sz-selected { border-color: var(--gold-dark); background: var(--gold-dark); color: #fff; }
+    .sz-btn.sz-unavail { opacity: 0.35; cursor: not-allowed; text-decoration: line-through; }
+
+    .modal-actions { display: flex; gap: 10px; margin-bottom: 18px; }
+    .btn-add-cart {
+      flex: 1; padding: 14px; background: var(--gold-dark); color: #fff;
+      border: none; border-radius: 12px;
+      font-family: 'Nunito', sans-serif; font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; transition: background 0.2s, transform 0.15s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-add-cart:hover { background: var(--gold-deep); transform: translateY(-1px); }
+    .btn-add-cart:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .btn-checkout {
+      flex: 1; padding: 14px; background: var(--text); color: #fff;
+      border: none; border-radius: 12px;
+      font-family: 'Nunito', sans-serif; font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; transition: background 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-checkout:hover { background: #3d2a1a; }
+
+    .modal-perks {
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .perk {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.8rem; color: var(--muted);
+    }
+    .perk svg { width: 15px; height: 15px; flex-shrink: 0; color: var(--gold); }
+
+    /* ── Recommendations strip ── */
+    .modal-recs {
+      border-top: 1px solid var(--border);
+      padding: 24px 28px 28px;
+    }
+    .recs-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-weight: 600; margin-bottom: 16px;
+    }
+    .recs-strip {
+      display: flex; gap: 14px;
+      overflow-x: auto; padding-bottom: 6px;
+    }
+    .recs-strip::-webkit-scrollbar { height: 4px; }
+    .recs-strip::-webkit-scrollbar-track { background: var(--cream); }
+    .recs-strip::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; }
+
+    .rec-card {
+      flex-shrink: 0; width: 160px; cursor: pointer;
+      border-radius: 14px; overflow: hidden;
+      border: 1px solid var(--border); background: var(--cream-2, #f7f2ec);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .rec-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(43,29,20,0.12); }
+    .rec-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
+    .rec-card-body { padding: 10px 12px; background: #fff; }
+    .rec-name { font-size: 0.78rem; font-weight: 600; line-height: 1.3; margin-bottom: 3px; }
+    .rec-price { font-size: 0.82rem; font-weight: 700; color: var(--gold-dark); }
+
+    /* ── Modal responsive — mirrors collection.css ── */
+    @media (max-width: 900px) {
+      .modal-top { grid-template-columns: 1fr; }
+      .modal-gallery { border-radius: 24px 24px 0 0; }
+      .modal-info { max-height: none; border-left: none; border-top: 1px solid var(--border); }
+    }
+    @media (max-width: 600px) {
+      .modal-backdrop { padding: 0; align-items: flex-end; }
+      .modal { border-radius: 24px 24px 0 0; max-height: 96vh; }
+      .gallery-thumbs { flex-direction: row; overflow-x: auto; }
+      .modal-gallery { flex-direction: column; gap: 10px; padding: 14px; }
+      .g-thumb { width: 54px; height: 54px; flex-shrink: 0; }
+      .gallery-main { min-height: 220px; }
+      .modal-info { padding: 18px 18px 24px; }
+      .modal-name { font-size: 1.3rem; }
+      .modal-price { font-size: 1.45rem; }
+      .modal-actions { flex-direction: column; }
+      .modal-actions .m-add-btn,
+      .modal-actions .m-buy-btn { width: 100%; justify-content: center; }
+    }
+    @media (max-width: 380px) {
+      .modal-gallery { padding: 10px; }
+      .g-thumb { width: 46px; height: 46px; }
+      .modal-info { padding: 14px 14px 20px; }
+    }
+
+    /* ════════════════════════════════════
+       CART DRAWER (identical to main site)
+    ════════════════════════════════════ */
+    .cart-backdrop-el {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.35); z-index: 3100;
+    }
+    .cart-backdrop-el.open { display: block; }
+    .cart-drawer {
+      position: fixed; top: 0; right: 0;
+      width: 380px; max-width: 95vw; height: 100%;
+      background: var(--cream); z-index: 3200;
+      display: flex; flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.38s cubic-bezier(.4,0,.2,1);
+      box-shadow: -8px 0 40px rgba(0,0,0,0.14);
+    }
+    .cart-drawer.open { transform: translateX(0); }
+    .cart-drawer-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 22px 24px 18px; border-bottom: 1px solid var(--border);
+    }
+    .cart-drawer-header h3 {
+      font-family: 'Playfair Display', serif; font-size: 20px;
+      font-weight: 500; color: var(--text);
+    }
+    .cart-close {
+      background: none; border: none; font-size: 18px; color: #888;
+      cursor: pointer; padding: 4px 8px; border-radius: 6px; transition: 0.2s;
+    }
+    .cart-close:hover { background: #f0e8df; color: var(--text); }
+    .cart-items-el { flex: 1; overflow-y: auto; padding: 16px 24px; }
+    .cart-item-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 0; border-bottom: 1px solid #ede4d8; gap: 12px;
+    }
+    .ci-info .ci-name { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+    .ci-info .ci-meta { font-size: 12px; color: var(--accent); }
+    .ci-controls-el { display: flex; align-items: center; gap: 6px; }
+    .qty-btn-el {
+      width: 26px; height: 26px; border: 1.5px solid #d9cdb7;
+      background: #fff; border-radius: 6px; font-size: 15px;
+      color: var(--text); cursor: pointer; display: flex;
+      align-items: center; justify-content: center; transition: 0.15s;
+    }
+    .qty-btn-el:hover { border-color: var(--gold-dark); color: var(--gold-dark); }
+    .qty-num-el { font-size: 13px; font-weight: 600; color: var(--text); min-width: 18px; text-align: center; }
+    .ci-remove-btn {
+      background: none; border: none; color: #bbb; font-size: 13px;
+      cursor: pointer; padding: 4px; border-radius: 4px; transition: 0.15s;
+    }
+    .ci-remove-btn:hover { color: #c0392b; }
+    .cart-empty-el {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; height: 200px; gap: 14px; color: var(--accent);
+    }
+    .cart-empty-el p { font-size: 14px; color: #999; }
+    .cart-footer-el { padding: 18px 24px 28px; border-top: 1px solid var(--border); }
+    .cart-total-el {
+      display: flex; justify-content: space-between;
+      font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 16px;
+    }
+    .checkout-btn-el {
+      width: 100%; padding: 14px 0; background: var(--gold-dark); color: #fff;
+      border: none; border-radius: 8px; font-size: 13px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer;
+      transition: background 0.2s; margin-bottom: 10px; font-family: 'Nunito', sans-serif;
+    }
+    .checkout-btn-el:hover { background: var(--gold-deep); }
+    .continue-btn-el {
+      width: 100%; padding: 11px 0; background: transparent; color: #999;
+      border: 1.5px solid #d9cdb7; border-radius: 8px; font-size: 12px;
+      cursor: pointer; transition: 0.2s; font-family: 'Nunito', sans-serif;
+    }
+    .continue-btn-el:hover { border-color: var(--gold-dark); color: var(--gold-dark); }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: #2b1d14; color: #f7e8d3; padding: 12px 24px;
+      border-radius: 30px; font-size: 13px; font-weight: 500;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s; z-index: 9999; white-space: nowrap;
+      };
