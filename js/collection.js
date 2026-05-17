@@ -9,7 +9,7 @@ const PRODUCTS = [
   {
     id: 0,
     name: "Red Flower pattern Jutti",
-    price: 1550, oldPrice: 2000,
+    price: 1800, oldPrice: 2000,
     category: "best-seller",
     categoryLabel: "Best Seller",
     tag: "Best Seller", tagClass: "tag-best",
@@ -37,7 +37,7 @@ const PRODUCTS = [
   {
     id: 2,
     name: "Bridal Kundan Jutti",
-    price: 1800, oldPrice: 2200,
+    price: 1500, oldPrice: 2200,
     category: "bridal",
     categoryLabel: "Bridal",
     tag: "Bridal", tagClass: "tag-bridal",
